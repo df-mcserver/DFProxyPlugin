@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DFProxyPlugin:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DFProxyPlugin_jar</output-path>
+    <root id="archive" name="DFProxyPlugin.jar">
+      <element id="module-output" name="DFProxyPlugin" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/wasabithumb/jtoml-api/1.1.0/jtoml-api-1.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/wasabithumb/jtoml-internals/1.1.0/jtoml-internals-1.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/io/github/wasabithumb/jtoml/1.1.0/jtoml-1.1.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
