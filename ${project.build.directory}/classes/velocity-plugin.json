@@ -1,0 +1,1 @@
+{"id":"dfproxyplugin","name":"DFProxyPlugin","version":"1.0-SNAPSHOT","authors":["deadfry42"],"dependencies":[{"id":"geyser","optional":false},{"id":"floodgate","optional":false}],"main":"uk.co.nikodem.dFProxyPlugin.DFProxyPlugin"}

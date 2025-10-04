@@ -6,16 +6,15 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Type;
 import java.util.Optional;
 import java.util.UUID;
 
 public class BedrockPlatformInformation implements ParsedPlatformInformation {
-    private UUID uuid;
-    private String minecraftVersion;
+    private final UUID uuid;
+    private final String minecraftVersion;
     private String devicePlatformName;
-    private String serverUsername;
-    private String realUsername;
+    private final String serverUsername;
+    private final String realUsername;
 
     public BedrockPlatformInformation(UUID uuid) {
         this.uuid = uuid;
@@ -98,6 +97,11 @@ public class BedrockPlatformInformation implements ParsedPlatformInformation {
     @Override
     public String getClientBrandName() {
         return "vanilla";
+    }
+
+    @Override
+    public boolean isIncompatible() {
+        return false; // no way to check bedrock for incompatibilities
     }
 
     @Override

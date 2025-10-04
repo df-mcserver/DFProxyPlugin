@@ -7,7 +7,6 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformationAdapter;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.BedrockPlatformInformation;
-import uk.co.nikodem.dFProxyPlugin.Player.PlayerCheckSuccess;
 
 import javax.annotation.Nullable;
 import java.io.*;
@@ -21,7 +20,7 @@ public class PlayerDataHandler {
             .registerTypeAdapter(ParsedPlatformInformation.class, new ParsedPlatformInformationAdapter())
             .create();
 
-    public static PlayerData onJoin(Player plr, ParsedPlatformInformation info, PlayerCheckSuccess checkSuccess) {
+    public static PlayerData onJoin(Player plr, ParsedPlatformInformation info) {
         PlayerData data = retrievePlayerData(plr);
 
         updatePlayerData(data, info);

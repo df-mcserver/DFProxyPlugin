@@ -10,6 +10,8 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler;
 
+import java.util.Objects;
+
 public class RequestDataCommand implements DFCommand {
     @Override
     public BrigadierCommand createBrigadierCommand(final ProxyServer server) {
@@ -19,7 +21,7 @@ public class RequestDataCommand implements DFCommand {
 
                     if (source instanceof Player target) {
                         target.sendMessage(
-                                Component.text(PlayerDataHandler.readPlayerFileAsString(target))
+                                Component.text(Objects.requireNonNull(PlayerDataHandler.readPlayerFileAsString(target)))
                         );
                     }
 

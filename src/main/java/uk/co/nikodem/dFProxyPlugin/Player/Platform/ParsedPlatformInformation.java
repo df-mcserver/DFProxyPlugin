@@ -20,14 +20,20 @@ public interface ParsedPlatformInformation {
     public String getDevicePlatformName();
     public int getProtocolVersion();
     public String getMinecraftVersion();
-    @Nullable
-    public GeyserConnection getGeyserConnection();
+    @Nullable public GeyserConnection getGeyserConnection();
     public Boolean isBedrock();
     public default Boolean isJava() {
         return !isBedrock();
     }
-    public String getClientBrandName();
+    @Nullable public String getClientBrandName();
+
     public Boolean isModded();
+
+    public default boolean isIncompatible() {
+        if (getClientBrandName() == null) return true;
+        List<String> allowedClients = List.of("vanilla", "fabric", "neoforge", "quilt");
+        return !allowedClients.contains(getClientBrandName());
+    }
 
     // caching
     public static Map<UUID, ParsedPlatformInformation> cachedPlayers = new HashMap<>();

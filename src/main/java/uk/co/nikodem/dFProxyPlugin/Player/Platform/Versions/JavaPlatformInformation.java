@@ -1,9 +1,5 @@
 package uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
 import org.geysermc.geyser.api.connection.GeyserConnection;
@@ -11,15 +7,14 @@ import org.jetbrains.annotations.Nullable;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class JavaPlatformInformation implements ParsedPlatformInformation {
-    private UUID uuid;
-    private int protocolVersion;
-    private String minecraftVersion;
-    private String username;
-    private String brandName;
+    private final UUID uuid;
+    private final int protocolVersion;
+    private final String minecraftVersion;
+    private final String username;
+    private final String brandName;
 
     public JavaPlatformInformation(UUID uuid) {
         this.uuid = uuid;

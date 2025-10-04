@@ -10,6 +10,7 @@ import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -33,6 +34,20 @@ public class PluginMessageListener {
                     byte[] msg = createMessage("IsGeyser", convertBoolToString(isUnderGeyser));
                     plr.getCurrentServer().ifPresent(serverConnection -> serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg));
                 }
+
+            case "RealProtocolVersion":
+                if (event.getSource() instanceof Player plr) {
+                    byte[] msg = createMessage("RealProtocolVersion", plr.getProtocolVersion().toString());
+                    plr.getCurrentServer().ifPresent(serverConnection -> serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg));
+                }
+
+            case "IncompatibleClient":
+                if (event.getSource() instanceof Player plr) {
+                    boolean isIncompatible = ParsedPlatformInformation.fromPlayer(plr).isIncompatible();
+                    byte[] msg = createMessage("IncompatibleClient", convertBoolToString(isIncompatible));
+                    plr.getCurrentServer().ifPresent(serverConnection -> serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg));
+                }
+
             case "Connect":
                 if (event.getSource() instanceof ServerConnection serverConnection) {
                     Player plr = serverConnection.getPlayer();

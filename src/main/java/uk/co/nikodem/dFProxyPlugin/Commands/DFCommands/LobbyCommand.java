@@ -26,8 +26,6 @@ public class LobbyCommand implements DFCommand {
                             return Command.SINGLE_SUCCESS;
                         }
 
-                        // TODO: finish lobby commmand
-
                         RegisteredServer lobby = lobbyMaybe.get();
                         ConnectionRequestBuilder request = plr.createConnectionRequest(lobby);
 

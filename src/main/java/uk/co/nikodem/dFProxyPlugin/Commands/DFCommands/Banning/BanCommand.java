@@ -37,11 +37,11 @@ public class BanCommand implements DFCommand {
                         })
                         .executes(context -> {
                             String argumentProvided = context.getArgument("player", String.class);
-                            server.getPlayer(argumentProvided).ifPresent((plr) -> {
-//                                        BanlistManager.banPlayer(plr);
-//                                        plr.disconnect(BanlistManager.createBanMessage(plr));
-                                    }
-                            );
+                            server.getPlayer(argumentProvided).ifPresentOrElse((plr) -> {
+                                // plr found, should be banned
+                            }, () -> {
+                                // no plr found, check for uuid
+                            });
 
                             return Command.SINGLE_SUCCESS;
                         })

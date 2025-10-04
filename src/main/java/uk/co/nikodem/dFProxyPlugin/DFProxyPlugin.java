@@ -111,19 +111,11 @@ public class DFProxyPlugin implements EventRegistrar {
             UUIDConversionHandler.addConversion(plr);
 
             ParsedPlatformInformation info = ParsedPlatformInformation.fromUUID(plr.getUniqueId());
+            PlayerData data = PlayerDataHandler.onJoin(plr, info);
 
-            // while this isn't a one stop solution to stop hacking
-            // it's good enough
-            List<String> allowedClients = List.of("vanilla", "fabric", "neoforge", "quilt");
-            PlayerCheckSuccess checkSuccess = PlayerCheckSuccess.Success;
+            if (info.isIncompatible()) {
 
-            // vague error message so people ask me
-            // and i can tell them to gtfo off forge
-            if (!allowedClients.contains(info.getClientBrandName())) {
-                checkSuccess = PlayerCheckSuccess.IncompatibleClient;
             }
-
-            PlayerData data = PlayerDataHandler.onJoin(plr, info, checkSuccess);
 
             if (data.banInformation != null) {
                 if (data.banInformation.getEnd() < new Date().getTime() && !data.banInformation.isPermanentlyBanned()) {
@@ -133,10 +125,6 @@ public class DFProxyPlugin implements EventRegistrar {
                 } else {
                     plr.disconnect(data.banInformation.getBanMessage());
                 }
-            }
-
-            if (checkSuccess == PlayerCheckSuccess.IncompatibleClient) {
-                plr.disconnect(Component.text("Client \""+info.getClientBrandName()+"\" cannot connect due to Policy violations!\nPlease use a different client and try again.", NamedTextColor.RED));
             }
 
             JoinMessage.sendMessage(info);
