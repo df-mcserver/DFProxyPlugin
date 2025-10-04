@@ -1,97 +1,41 @@
 package uk.co.nikodem.dFProxyPlugin.Messaging;
 
 import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
-import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
-import com.velocitypowered.api.proxy.Player;
-import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
-import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
+import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.Connect;
+import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.IncompatibleClient;
+import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.IsGeyser;
+import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.RealProtocolVersion;
 
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+import java.util.HashMap;
 
 public class PluginMessageListener {
     public static final MinecraftChannelIdentifier IDENTIFIER = MinecraftChannelIdentifier.from("df:proxy");
+    public static final HashMap<String, DFPluginMessageHandler> messageHandlers = new HashMap<>();
+
+    public static void initialiseMessageHandlers() {
+        messageHandlers.put("RealProtocolVersion", new RealProtocolVersion());
+        messageHandlers.put("IncompatibleClient", new IncompatibleClient());
+        messageHandlers.put("IsGeyser", new IsGeyser());
+        messageHandlers.put("Connect", new Connect());
+    }
 
     public static void onPluginMessage(PluginMessageEvent event) {
         if (!IDENTIFIER.equals(event.getIdentifier())) {
             return;
         }
-        event.setResult(PluginMessageEvent.ForwardResult.handled());
 
         ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
         String command = in.readUTF();
 
-        switch (command) {
-            case "IsGeyser":
-                if (event.getSource() instanceof Player plr) {
-                    boolean isUnderGeyser = DFProxyPlugin.geyser.isBedrockPlayer(plr.getUniqueId());
-                    byte[] msg = createMessage("IsGeyser", convertBoolToString(isUnderGeyser));
-                    plr.getCurrentServer().ifPresent(serverConnection -> serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg));
-                }
+        DFPluginMessageHandler handler = messageHandlers.get(command);
 
-            case "RealProtocolVersion":
-                if (event.getSource() instanceof Player plr) {
-                    byte[] msg = createMessage("RealProtocolVersion", plr.getProtocolVersion().toString());
-                    plr.getCurrentServer().ifPresent(serverConnection -> serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg));
-                }
-
-            case "IncompatibleClient":
-                if (event.getSource() instanceof Player plr) {
-                    boolean isIncompatible = ParsedPlatformInformation.fromPlayer(plr).isIncompatible();
-                    byte[] msg = createMessage("IncompatibleClient", convertBoolToString(isIncompatible));
-                    plr.getCurrentServer().ifPresent(serverConnection -> serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg));
-                }
-
-            case "Connect":
-                if (event.getSource() instanceof ServerConnection serverConnection) {
-                    Player plr = serverConnection.getPlayer();
-                    String serverName = in.readUTF();
-                    Optional<RegisteredServer> serverInstance = DFProxyPlugin.server.getServer(serverName);
-                    if (serverInstance.isPresent()) {
-                        serverInstance.ifPresent(target -> {
-                            ConnectionRequestBuilder request = plr.createConnectionRequest(target);
-                            CompletableFuture<ConnectionRequestBuilder.Result> connection = request.connect();
-
-                            connection.whenCompleteAsync(((result, throwable) -> {
-                                if (result == null) {
-                                    byte[] msg = createMessage("ConnectStatus", convertBoolToString(false));
-                                    serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
-                                    return;
-                                }
-
-                                byte[] msg = createMessage("ConnectStatus", convertBoolToString(result.isSuccessful()));
-                                serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
-                            }));
-
-                            request.fireAndForget();
-                        });
-                    } else {
-                        byte[] msg = createMessage("ConnectStatus", convertBoolToString(false));
-                        serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
-                    }
-                }
-
-            default:
-                return;
-        }
-    }
-
-    public static byte[] createMessage(String... messages) {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        for (String msg : messages) {
-            out.writeUTF(msg+" ");
+        if (handler != null) {
+            handler.run(event, in);
         }
 
-        return out.toByteArray();
-    }
-
-    public static String convertBoolToString(boolean bool) {
-        return bool ? "true" : "false";
+        event.setResult(PluginMessageEvent.ForwardResult.handled());
     }
 }

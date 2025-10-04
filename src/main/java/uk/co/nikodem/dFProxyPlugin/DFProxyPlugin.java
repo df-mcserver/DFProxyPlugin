@@ -14,8 +14,6 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
 import org.geysermc.geyser.api.GeyserApi;
 import org.geysermc.geyser.api.event.EventRegistrar;
 import org.geysermc.geyser.api.event.bedrock.ClientEmoteEvent;
@@ -33,11 +31,9 @@ import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.JoinMessage;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
-import uk.co.nikodem.dFProxyPlugin.Player.PlayerCheckSuccess;
 
 import java.nio.file.Path;
 import java.util.Date;
-import java.util.List;
 
 @Plugin(id = "dfproxyplugin",
         name = "DFProxyPlugin",
@@ -64,6 +60,8 @@ public class DFProxyPlugin implements EventRegistrar {
         DFProxyPlugin.logger = logger;
         DFProxyPlugin.commandManager = server.getCommandManager();
         DFProxyPlugin.dataDirectory = dataFolder;
+
+        PluginMessageListener.initialiseMessageHandlers();
 
         this.onLoad();
     }
@@ -133,7 +131,6 @@ public class DFProxyPlugin implements EventRegistrar {
 
     @Subscribe
     public void onPluginMessage(PluginMessageEvent event) {
-        System.out.println("Plugin message");
         PluginMessageListener.onPluginMessage(event);
     }
 
