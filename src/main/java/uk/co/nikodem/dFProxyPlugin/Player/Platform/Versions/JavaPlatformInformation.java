@@ -1,4 +1,4 @@
-package uk.co.nikodem.dFProxyPlugin.Player.Versions;
+package uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions;
 
 import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.proxy.Player;
@@ -6,19 +6,18 @@ import com.velocitypowered.api.util.ModInfo;
 import org.geysermc.geyser.api.connection.GeyserConnection;
 import org.jetbrains.annotations.Nullable;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.ParsedPlayerInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import java.util.*;
 
-public class JavaPlayerInformation implements ParsedPlayerInformation {
+public class JavaPlatformInformation implements ParsedPlatformInformation {
     private UUID uuid;
     private int protocolVersion;
     private String minecraftVersion;
     private String username;
-    private List<String> mods;
     private String brandName;
 
-    public JavaPlayerInformation(UUID uuid) {
+    public JavaPlatformInformation(UUID uuid) {
         this.uuid = uuid;
         this.protocolVersion = getPlayer().getProtocolVersion().getProtocol();
 
@@ -35,15 +34,10 @@ public class JavaPlayerInformation implements ParsedPlayerInformation {
         rawVersion = rawVersion.replace("_", ".");
         this.minecraftVersion = rawVersion;
 
-        this.mods = new ArrayList<>();
 
         Player plr = getPlayer();
         this.username = plr == null ? "Unknown" : getPlayer().getUsername();
         this.brandName = plr == null ? "Unknown" : plr.getClientBrand();
-        Optional<ModInfo> modInfoMaybe = plr.getModInfo();
-        modInfoMaybe.ifPresent(modInfo -> {
-            modInfo.getMods().stream().map(mod -> this.mods.add(mod.getId()));
-        });
     }
 
     @Override
@@ -106,11 +100,6 @@ public class JavaPlayerInformation implements ParsedPlayerInformation {
     @Override
     public String getClientBrandName() {
         return this.brandName;
-    }
-
-    @Override
-    public List<String> getMods() {
-        return this.mods;
     }
 
     @Override

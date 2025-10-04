@@ -1,15 +1,15 @@
-package uk.co.nikodem.dFProxyPlugin.Player;
+package uk.co.nikodem.dFProxyPlugin.Player.Platform;
 
 import com.velocitypowered.api.proxy.Player;
 import org.geysermc.geyser.api.connection.GeyserConnection;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.Versions.BedrockPlayerInformation;
-import uk.co.nikodem.dFProxyPlugin.Player.Versions.JavaPlayerInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.BedrockPlatformInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.JavaPlatformInformation;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public interface ParsedPlayerInformation {
+public interface ParsedPlatformInformation {
     @Nullable
     public Player getPlayer();
     public UUID getUniqueId();
@@ -27,14 +27,13 @@ public interface ParsedPlayerInformation {
         return !isBedrock();
     }
     public String getClientBrandName();
-    public List<String> getMods();
     public Boolean isModded();
 
     // caching
-    public static Map<UUID, ParsedPlayerInformation> cachedPlayers = new HashMap<>();
+    public static Map<UUID, ParsedPlatformInformation> cachedPlayers = new HashMap<>();
 
     @Nullable
-    public static ParsedPlayerInformation getCachedParsedPlayerInformation(UUID uuid) {
+    public static ParsedPlatformInformation getCachedParsedPlayerInformation(UUID uuid) {
         return cachedPlayers.get(uuid);
     }
 
@@ -42,21 +41,21 @@ public interface ParsedPlayerInformation {
         cachedPlayers.remove(uuid);
     }
 
-    public static ParsedPlayerInformation fromUUID(UUID uuid) {
+    public static ParsedPlatformInformation fromUUID(UUID uuid) {
         // check if cached exists
-        ParsedPlayerInformation cachedResult = getCachedParsedPlayerInformation(uuid);
+        ParsedPlatformInformation cachedResult = getCachedParsedPlayerInformation(uuid);
         if (cachedResult != null) return cachedResult;
 
         // create and add to cache
-        ParsedPlayerInformation newResult =
+        ParsedPlatformInformation newResult =
                 DFProxyPlugin.geyser.isBedrockPlayer(uuid) ?
-                        new BedrockPlayerInformation(uuid) : new JavaPlayerInformation(uuid);
+                        new BedrockPlatformInformation(uuid) : new JavaPlatformInformation(uuid);
 
         cachedPlayers.put(uuid, newResult);
         return newResult;
     }
 
-    public static ParsedPlayerInformation fromPlayer(Player plr) {
+    public static ParsedPlatformInformation fromPlayer(Player plr) {
         return fromUUID(plr.getUniqueId());
     }
 }

@@ -27,11 +27,14 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.PlatformCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.UnbanCommand;
 import uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener;
 import uk.co.nikodem.dFProxyPlugin.Player.Bedrock.EmoteMenu;
+import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.JoinMessage;
-import uk.co.nikodem.dFProxyPlugin.Player.ParsedPlayerInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.PlayerCheckSuccess;
 
 import java.nio.file.Path;
+import java.util.Date;
 import java.util.List;
 
 @Plugin(id = "dfproxyplugin",
@@ -60,32 +63,6 @@ public class DFProxyPlugin implements EventRegistrar {
         DFProxyPlugin.commandManager = server.getCommandManager();
         DFProxyPlugin.dataDirectory = dataFolder;
 
-        PlayerDataHandler.initialisePlayersFile();
-        PlayerDataHandler.writeTestValue();
-
-//        try {
-//            this.file = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-//            this.logs = YamlDocument.create(new File(dataFolder.toFile(), "logs.yml"),
-//                    Objects.requireNonNull(getClass().getResourceAsStream("/logs.yml")),
-//                    GeneralSettings.DEFAULT,
-//                    LoaderSettings.builder()
-//                            .setAutoUpdate(true)
-//                            .build(),
-//                    DumperSettings.DEFAULT,
-//                    UpdaterSettings.builder()
-//                            .setVersioning(new BasicVersioning("logs-version"))
-//                            .setOptionSorting(UpdaterSettings.OptionSorting.SORT_BY_DEFAULTS)
-//                            .build());
-//
-//            logs.update();
-//            logs.save();
-//        } catch (final IOException e) {
-//            logger.error("Error creating logs! Shutting down..");
-//            Optional<PluginContainer> container = server.getPluginManager().getPlugin("dfproxyplugin");
-//            container.ifPresent(pluginContainer -> pluginContainer.getExecutorService().shutdown());
-//            throw new RuntimeException(e);
-//        }
-
         this.onLoad();
     }
 
@@ -103,7 +80,7 @@ public class DFProxyPlugin implements EventRegistrar {
     public void onPlayerDisconnect(DisconnectEvent event) {
         if (geyser == null) geyser = GeyserApi.api();
         Player plr = event.getPlayer();
-        ParsedPlayerInformation.removePlayerFromCache(plr.getUniqueId());
+        ParsedPlatformInformation.removePlayerFromCache(plr.getUniqueId());
         DisconnectEvent.LoginStatus status = event.getLoginStatus();
 
         if (status != DisconnectEvent.LoginStatus.PRE_SERVER_JOIN) return;
@@ -139,18 +116,32 @@ public class DFProxyPlugin implements EventRegistrar {
                 });
             });
 
-            ParsedPlayerInformation info = ParsedPlayerInformation.fromUUID(plr.getUniqueId());
+            ParsedPlatformInformation info = ParsedPlatformInformation.fromUUID(plr.getUniqueId());
 
-            // TODO: investigate whether Forge support is possible
-            // for now just kick all that aren't using the specific group of allowed clients
-
+            // while this isn't a one stop solution to stop hacking
+            // it's good enough
             List<String> allowedClients = List.of("vanilla", "fabric", "neoforge", "quilt");
+            PlayerCheckSuccess checkSuccess = PlayerCheckSuccess.Success;
 
+            // vague error message so people ask me
+            // and i can tell them to gtfo off forge
             if (!allowedClients.contains(info.getClientBrandName())) {
-                plr.disconnect(Component.text("Client \""+info.getClientBrandName()+"\" cannot connect due to Policy violations!\nPlease use a different client and try again.", NamedTextColor.RED));
+                checkSuccess = PlayerCheckSuccess.IncompatibleClient;
             }
 
-            System.out.println(info.getMods());
+            PlayerData data = PlayerDataHandler.onJoin(plr, info, checkSuccess);
+
+            if (data.banInformation != null) {
+                if (data.banInformation.getEnd() < new Date().getTime() && data.banInformation.getEnd() > 0) {
+                    // ban is expired
+                    data.banInformation = null;
+                    PlayerDataHandler.writePlayerDataToPlayerFile(plr, data);
+                }
+            }
+
+            if (checkSuccess == PlayerCheckSuccess.IncompatibleClient) {
+                plr.disconnect(Component.text("Client \""+info.getClientBrandName()+"\" cannot connect due to Policy violations!\nPlease use a different client and try again.", NamedTextColor.RED));
+            }
 
             JoinMessage.sendMessage(info);
         }
@@ -168,7 +159,7 @@ public class DFProxyPlugin implements EventRegistrar {
     }
 
     public void onLoad() {
-//        System.out.println("Loaded plugin "+this.name);
+        System.out.println("Loaded plugin "+ name);
     }
 
     public void onEnable(ProxyInitializeEvent event) {
@@ -182,6 +173,6 @@ public class DFProxyPlugin implements EventRegistrar {
     }
 
     public void onDisable() {
-//        System.out.println("Deloaded plugin "+this.name);
+        System.out.println("Deloaded plugin "+ name);
     }
 }

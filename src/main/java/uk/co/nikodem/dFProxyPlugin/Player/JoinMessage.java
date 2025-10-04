@@ -4,12 +4,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import uk.co.nikodem.dFProxyPlugin.BanManager.BannedPlayer;
 import uk.co.nikodem.dFProxyPlugin.BanManager.TimeManager;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class JoinMessage {
-    public static void sendMessage(ParsedPlayerInformation info) {
+    public static void sendMessage(ParsedPlatformInformation info) {
         List<Component> messages = null;
         if (info.isBedrock()) messages = createBedrockMessages();
         else messages = createJavaMessages();

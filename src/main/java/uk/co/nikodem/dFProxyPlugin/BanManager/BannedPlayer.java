@@ -12,14 +12,12 @@ public class BannedPlayer {
     private long startTimestamp;
     private long endTimestamp; // note: -1 means permanent
     private String reason;
-    private boolean lobbyPermission;
 
-    public BannedPlayer(String username, UUID uuid, long startTimestamp, long endTimestamp, String reason, boolean lobbyPermission) {
+    public BannedPlayer(String username, UUID uuid, long startTimestamp, long endTimestamp, String reason) {
         this.uuid = uuid;
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
         this.reason = reason;
-        this.lobbyPermission = lobbyPermission;
 
         this.username = username;
     }
@@ -44,29 +42,13 @@ public class BannedPlayer {
         return this.username;
     }
 
-    public boolean getLobbyPermission() {
-        return this.lobbyPermission;
-    }
-
-    public static BannedPlayer createInformation(Player plr, long start, long end, String reason, boolean lobbyPermission) {
+    public static BannedPlayer createInformation(Player plr, long start, long end, String reason) {
         return new BannedPlayer(
                 plr.getUsername(),
                 plr.getUniqueId(),
                 start,
                 end,
-                reason,
-                lobbyPermission
-        );
-    }
-
-    public static BannedPlayer createInformation(Player plr, long end, String reason, boolean lobbyPermission) {
-        return new BannedPlayer(
-                plr.getUsername(),
-                plr.getUniqueId(),
-                new Date().getTime(),
-                end,
-                reason,
-                lobbyPermission
+                reason
         );
     }
 
@@ -76,8 +58,7 @@ public class BannedPlayer {
                 plr.getUniqueId(),
                 new Date().getTime(),
                 end,
-                reason,
-                true
+                reason
         );
     }
 
@@ -87,8 +68,7 @@ public class BannedPlayer {
                 plr.getUniqueId(),
                 new Date().getTime(),
                 end,
-                "No reason provided.",
-                true
+                "No reason provided."
         );
     }
 
@@ -98,8 +78,7 @@ public class BannedPlayer {
                 plr.getUniqueId(),
                 new Date().getTime(),
                 new Date().getTime()+ Duration.ofHours(24).toMillis(),
-                "No reason provided.",
-                true
+                "No reason provided."
         );
     }
 
@@ -111,8 +90,7 @@ public class BannedPlayer {
                 uuid,
                 start,
                 end,
-                reason,
-                lobbyPermission
+                reason
         );
     }
 
@@ -122,8 +100,7 @@ public class BannedPlayer {
                 uuid,
                 new Date().getTime(),
                 end,
-                reason,
-                lobbyPermission
+                reason
         );
     }
 
@@ -133,8 +110,7 @@ public class BannedPlayer {
                 uuid,
                 new Date().getTime(),
                 end,
-                reason,
-                true
+                reason
         );
     }
 
@@ -144,8 +120,7 @@ public class BannedPlayer {
                 uuid,
                 new Date().getTime(),
                 end,
-                "No reason provided.",
-                true
+                "No reason provided."
         );
     }
 
@@ -155,8 +130,7 @@ public class BannedPlayer {
                 uuid,
                 new Date().getTime(),
                 new Date().getTime()+ Duration.ofHours(24).toMillis(),
-                "No reason provided.",
-                true
+                "No reason provided."
         );
     }
 }

@@ -11,7 +11,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.ParsedPlayerInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import java.text.MessageFormat;
 
@@ -65,7 +65,7 @@ public class PlatformCommand implements DFCommand {
     }
 
     public void sendPlatformInformation(CommandSource source, Player plr) {
-        ParsedPlayerInformation info = ParsedPlayerInformation.fromPlayer(plr);
+        ParsedPlatformInformation info = ParsedPlatformInformation.fromPlayer(plr);
         // what the fuck is this concoction that intellij idea just made
         String msg = "====================\n" +
                 MessageFormat.format("  - Username: {0}\n",

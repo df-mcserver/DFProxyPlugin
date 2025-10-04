@@ -1,23 +1,23 @@
-package uk.co.nikodem.dFProxyPlugin.Player.Versions;
+package uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions;
 
 import com.velocitypowered.api.proxy.Player;
 import org.geysermc.geyser.api.connection.GeyserConnection;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.ParsedPlayerInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class BedrockPlayerInformation implements ParsedPlayerInformation {
+public class BedrockPlatformInformation implements ParsedPlatformInformation {
     private UUID uuid;
     private String minecraftVersion;
     private String devicePlatformName;
     private String serverUsername;
     private String realUsername;
 
-    public BedrockPlayerInformation(UUID uuid) {
+    public BedrockPlatformInformation(UUID uuid) {
         this.uuid = uuid;
 
         this.minecraftVersion = getGeyserConnection().version();
@@ -90,11 +90,6 @@ public class BedrockPlayerInformation implements ParsedPlayerInformation {
     @Override
     public String getClientBrandName() {
         return "vanilla";
-    }
-
-    @Override
-    public List<String> getMods() {
-        return List.of();
     }
 
     @Override
