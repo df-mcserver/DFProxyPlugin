@@ -1,7 +1,10 @@
 package uk.co.nikodem.dFProxyPlugin.BanManager;
 
 import com.velocitypowered.api.proxy.Player;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
+import java.awt.*;
 import java.time.Duration;
 import java.util.Date;
 import java.util.UUID;
@@ -40,6 +43,23 @@ public class BannedPlayer {
 
     public String getUsername() {
         return this.username;
+    }
+
+    public boolean isPernamentlyBanned() {
+        return this.endTimestamp < 0;
+    }
+
+    public Component getBanMessage() {
+        return Component.text(
+                "You have been "+ (this.isPernamentlyBanned() ? "permanently" : "") + " banned from this server!\n\nReason: ", NamedTextColor.RED
+        ).append(
+                Component.text(this.reason, NamedTextColor.WHITE)
+        ).append(
+                (this.isPernamentlyBanned() ?
+                        Component.newline()
+                        : Component.text("\n\nYou will be unbanned on "+new Date(this.endTimestamp), NamedTextColor.RED)
+                )
+        );
     }
 
     public static BannedPlayer createInformation(Player plr, long start, long end, String reason) {
