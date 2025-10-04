@@ -136,6 +136,18 @@ public class DFProxyPlugin implements EventRegistrar {
                     // ban is expired
                     data.banInformation = null;
                     PlayerDataHandler.writePlayerDataToPlayerFile(plr, data);
+                } else {
+                    String reason = data.banInformation.getReason();
+                    Date endTime = new Date(data.banInformation.getEnd());
+                    plr.disconnect(
+                            Component.text(
+                                    "You have been banned from this server!\n\nReason: ", NamedTextColor.RED
+                            ).append(Component.text(
+                                    reason, NamedTextColor.WHITE
+                            )).append(Component.text(
+                                    "\n\nYou will be unbanned on "+ endTime +".", NamedTextColor.RED
+                            ))
+                    );
                 }
             }
 
