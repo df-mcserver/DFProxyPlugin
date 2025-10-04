@@ -131,14 +131,6 @@ public class PlayerDataHandler {
         return createPlayerFile(plr.getUniqueId());
     }
 
-    public static boolean playerFileExists(UUID uuid) {
-        return getPlayerFile(uuid).exists();
-    }
-
-    public static boolean playerFileExists(Player plr) {
-        return playerFileExists(plr.getUniqueId());
-    }
-
     public static File getPlayerFile(UUID uuid) {
         return Path.of(getPlayersDirectory().toURI().getPath(), "/"+uuid.toString()+".json").toFile();
     }

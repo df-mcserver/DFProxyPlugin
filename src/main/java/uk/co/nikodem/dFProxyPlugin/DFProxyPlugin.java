@@ -29,6 +29,7 @@ import uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener;
 import uk.co.nikodem.dFProxyPlugin.Player.Bedrock.EmoteMenu;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler;
+import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.JoinMessage;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 import uk.co.nikodem.dFProxyPlugin.Player.PlayerCheckSuccess;
@@ -106,15 +107,7 @@ public class DFProxyPlugin implements EventRegistrar {
             LoginAttempt login = new LoginAttempt(plr, DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN);
             System.out.println(login.stringify());
 
-            System.out.println(plr.getClientBrand());
-            plr.getModInfo().ifPresent(modInfo -> {
-                System.out.println(modInfo.getType());
-                System.out.println(modInfo);
-                modInfo.getMods().stream().map(mod -> {
-                    System.out.println(mod.getId());
-                    return null;
-                });
-            });
+            UUIDConversionHandler.addConversion(plr);
 
             ParsedPlatformInformation info = ParsedPlatformInformation.fromUUID(plr.getUniqueId());
 
@@ -132,7 +125,7 @@ public class DFProxyPlugin implements EventRegistrar {
             PlayerData data = PlayerDataHandler.onJoin(plr, info, checkSuccess);
 
             if (data.banInformation != null) {
-                if (data.banInformation.getEnd() < new Date().getTime() && !data.banInformation.isPernamentlyBanned()) {
+                if (data.banInformation.getEnd() < new Date().getTime() && !data.banInformation.isPermanentlyBanned()) {
                     // ban is expired
                     data.banInformation = null;
                     PlayerDataHandler.writePlayerDataToPlayerFile(plr, data);

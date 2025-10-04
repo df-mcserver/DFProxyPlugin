@@ -35,8 +35,6 @@ public class LoginAttempt {
         setVersion(plr);
 
         setTime();
-
-//        FileLogging.AddAttemptToUser(this);
     }
 
     public String stringify() {

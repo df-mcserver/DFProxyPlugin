@@ -4,17 +4,16 @@ import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
-import java.awt.*;
 import java.time.Duration;
 import java.util.Date;
 import java.util.UUID;
 
 public class BannedPlayer {
-    private UUID uuid;
-    private String username;
-    private long startTimestamp;
-    private long endTimestamp; // note: -1 means permanent
-    private String reason;
+    private final UUID uuid;
+    private final String username;
+    private final long startTimestamp;
+    private final long endTimestamp; // note: <0 means permanent
+    private final String reason;
 
     public BannedPlayer(String username, UUID uuid, long startTimestamp, long endTimestamp, String reason) {
         this.uuid = uuid;
@@ -45,19 +44,20 @@ public class BannedPlayer {
         return this.username;
     }
 
-    public boolean isPernamentlyBanned() {
+    public boolean isPermanentlyBanned() {
         return this.endTimestamp < 0;
     }
 
     public Component getBanMessage() {
+        String endTime = TimeManager.formatDuration(this.endTimestamp - this.startTimestamp);
         return Component.text(
-                "You have been "+ (this.isPernamentlyBanned() ? "permanently" : "") + " banned from this server!\n\nReason: ", NamedTextColor.RED
+                "You have been "+ (this.isPermanentlyBanned() ? "permanently" : "") + " banned from this server!\n\nReason: ", NamedTextColor.RED
         ).append(
                 Component.text(this.reason, NamedTextColor.WHITE)
         ).append(
-                (this.isPernamentlyBanned() ?
+                (this.isPermanentlyBanned() ?
                         Component.newline()
-                        : Component.text("\n\nYou will be unbanned on "+new Date(this.endTimestamp), NamedTextColor.RED)
+                        : Component.text("\n\nYou will be unbanned "+endTime, NamedTextColor.RED)
                 )
         );
     }
