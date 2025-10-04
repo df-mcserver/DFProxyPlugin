@@ -1,6 +1,7 @@
 package uk.co.nikodem.dFProxyPlugin.Player.Data;
 
 import uk.co.nikodem.dFProxyPlugin.BanManager.BannedPlayer;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 public class PlayerData {
     public int joinCount = 0;
@@ -9,4 +10,5 @@ public class PlayerData {
     public int bedrockJoinCount = 0;
     public long lastJoinDate = 0;
     public BannedPlayer banInformation;
+    public ParsedPlatformInformation lastPlatform;
 }

@@ -10,10 +10,10 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 public class UUIDConversionHandler {
+    public static Gson gson = new Gson();
     public static UUIDConversion conversion = retrieveConversion();
 
     public static UUIDConversion retrieveConversion() {
-        Gson gson = new Gson();
         UUIDConversion data = gson.fromJson(readUUIDFileAsString(), UUIDConversion.class);
         if (data == null) data = new UUIDConversion();
         return data;
@@ -67,7 +67,7 @@ public class UUIDConversionHandler {
     }
 
     public static void writeConversionsToUUIDFile() {
-        writeStringToUUIDFile(new Gson().toJson(conversion));
+        writeStringToUUIDFile(gson.toJson(conversion));
     }
 
     public static void writeStringToUUIDFile(String content) {

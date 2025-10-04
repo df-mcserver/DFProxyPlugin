@@ -6,7 +6,7 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import javax.annotation.Nullable;
-import java.util.List;
+import java.lang.reflect.Type;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,6 +28,14 @@ public class BedrockPlatformInformation implements ParsedPlatformInformation {
 
         this.serverUsername = getPlayer() == null ? "Unknown" : getPlayer().getUsername();
         this.realUsername = getGeyserConnection().bedrockUsername();
+    }
+
+    public BedrockPlatformInformation(String uuid, String minecraftVersion, String devicePlatformName, String serverUsername, String realUsername) {
+        this.uuid = UUID.fromString(uuid);
+        this.minecraftVersion = minecraftVersion;
+        this.devicePlatformName = devicePlatformName;
+        this.serverUsername = serverUsername;
+        this.realUsername = realUsername;
     }
 
     @Override

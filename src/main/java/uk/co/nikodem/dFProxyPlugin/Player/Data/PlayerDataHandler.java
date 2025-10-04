@@ -1,9 +1,11 @@
 package uk.co.nikodem.dFProxyPlugin.Player.Data;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.velocitypowered.api.proxy.Player;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
+import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformationAdapter;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.BedrockPlatformInformation;
 import uk.co.nikodem.dFProxyPlugin.Player.PlayerCheckSuccess;
 
@@ -15,6 +17,9 @@ import java.util.UUID;
 
 public class PlayerDataHandler {
     public static String folderName = "players";
+    public static Gson gson = new GsonBuilder()
+            .registerTypeAdapter(ParsedPlatformInformation.class, new ParsedPlatformInformationAdapter())
+            .create();
 
     public static PlayerData onJoin(Player plr, ParsedPlatformInformation info, PlayerCheckSuccess checkSuccess) {
         PlayerData data = retrievePlayerData(plr);
@@ -26,7 +31,6 @@ public class PlayerDataHandler {
     }
 
     public static PlayerData retrievePlayerData(UUID uuid) {
-        Gson gson = new Gson();
         PlayerData data = gson.fromJson(readPlayerFileAsString(uuid), PlayerData.class);
         if (data == null) data = new PlayerData();
         return data;
@@ -39,6 +43,7 @@ public class PlayerDataHandler {
             data.bedrockJoinCount += 1;
         }
 
+        data.lastPlatform = info;
         data.joinCount += 1;
         data.lastJoinDate = new Date().getTime();
     }
@@ -82,7 +87,7 @@ public class PlayerDataHandler {
     }
 
     public static void writePlayerDataToPlayerFile(UUID uuid, PlayerData playerData) {
-        writeStringToPlayerFile(uuid, new Gson().toJson(playerData));
+        writeStringToPlayerFile(uuid, gson.toJson(playerData));
     }
 
     public static void writePlayerDataToPlayerFile(Player plr, PlayerData playerData) {
