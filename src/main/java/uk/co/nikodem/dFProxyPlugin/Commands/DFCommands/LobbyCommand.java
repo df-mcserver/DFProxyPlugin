@@ -3,16 +3,13 @@ package uk.co.nikodem.dFProxyPlugin.Commands.DFCommands;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.velocitypowered.api.command.*;
-import com.velocitypowered.api.proxy.ConnectionRequestBuilder;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-
-import java.util.Optional;
+import uk.co.nikodem.dFProxyPlugin.Player.Actions.SendToServer;
 
 public class LobbyCommand implements DFCommand {
     @Override
@@ -20,17 +17,9 @@ public class LobbyCommand implements DFCommand {
         LiteralCommandNode<CommandSource> helloNode = BrigadierCommand.literalArgumentBuilder("lobby")
                 .executes(context -> {
                     if (context.getSource() instanceof Player plr) {
-                        Optional<RegisteredServer> lobbyMaybe = server.getServer("lobby");
-                        if (!lobbyMaybe.isPresent()) {
-                            plr.sendMessage(Component.text("Lobby server does not exist!", NamedTextColor.RED));
-                            return Command.SINGLE_SUCCESS;
-                        }
+                        if (SendToServer.sendPlayerToServer(plr, "lobby")) plr.sendMessage(Component.text("Connecting to Lobby server..", NamedTextColor.LIGHT_PURPLE));
+                        else plr.sendMessage(Component.text("Lobby server does not exist!", NamedTextColor.RED));
 
-                        RegisteredServer lobby = lobbyMaybe.get();
-                        ConnectionRequestBuilder request = plr.createConnectionRequest(lobby);
-
-                        request.fireAndForget();
-                        plr.sendMessage(Component.text("Connecting to Lobby server..", NamedTextColor.LIGHT_PURPLE));
                         return Command.SINGLE_SUCCESS;
                     }
 

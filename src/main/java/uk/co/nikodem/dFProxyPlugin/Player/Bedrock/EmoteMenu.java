@@ -5,44 +5,29 @@ import org.geysermc.cumulus.form.SimpleForm;
 import org.geysermc.geyser.api.connection.GeyserConnection;
 import org.geysermc.geyser.api.event.bedrock.ClientEmoteEvent;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
+import uk.co.nikodem.dFProxyPlugin.Player.Actions.SendToServer;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 public class EmoteMenu {
     public static void handleEmote(ClientEmoteEvent event) {
         GeyserConnection connection = event.connection();
         event.setCancelled(true);
-        connection.sendMessage("Emotes aren't supported on this server!");
 
+        SimpleForm.Builder form = SimpleForm.builder()
+                .title("Quick actions")
+                .button("Return to lobby");
 
-//        SimpleForm.Builder form = SimpleForm.builder()
-//                .title("Quick commands")
-//                .content("Click on one of the commands below to run it.")
-//                .button("/accessories")
-//                .button("/lobby")
-//                .button("/about")
-//                .button("/bukkit:about")
-//                .button("/minecraft:me")
-//                .button("/me");
-//
-//        form.validResultHandler(((simpleForm, simpleFormResponse) -> {
-//            String command = simpleFormResponse.clickedButton().text();
-//
-//            Optional<Player> plrMaybe = DFProxyPlugin.server.getPlayer(connection.javaUsername());
-//            plrMaybe.ifPresent((player -> {
-//                CompletableFuture<Boolean> commandResult = DFProxyPlugin.commandManager.executeImmediatelyAsync(player, command);
-//
-//                // TODO: fix commands
-//
-//                commandResult.whenComplete(((aBoolean, throwable) -> {
-//                    System.out.println("COMMAND sent ~*!!(^Y78otweifyuragfksieurghlsertougyhal;u");
-//                    System.out.println(aBoolean);
-//                    throwable.printStackTrace();
-//                }));
-//            }));
-//        }));
-//
-//        connection.sendForm(form.build());
+        form.validResultHandler(((simpleForm, simpleFormResponse) -> {
+            String buttonPressed = simpleFormResponse.clickedButton().text();
+            Optional<Player> plrMaybe = DFProxyPlugin.server.getPlayer(connection.javaUsername());
+            plrMaybe.ifPresent((player -> {
+                if (buttonPressed.equals("Return to lobby")) {
+                    SendToServer.sendPlayerToServer(player, "lobby");
+                }
+            }));
+        }));
+
+        connection.sendForm(form.build());
     }
 }
