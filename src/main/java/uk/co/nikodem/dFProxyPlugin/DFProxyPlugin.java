@@ -90,8 +90,7 @@ public class DFProxyPlugin implements EventRegistrar {
 
     @Subscribe
     public void onPlayerLogin(PreLoginEvent event) {
-        assert event.getUniqueId() != null;
-        String uuid = event.getUniqueId().toString();
+        // nothing happens...
     }
 
     @Subscribe
