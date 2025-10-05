@@ -29,7 +29,6 @@ import uk.co.nikodem.dFProxyPlugin.Player.Bedrock.EmoteMenu;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
-import uk.co.nikodem.dFProxyPlugin.Player.JoinMessage;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import java.nio.file.Path;
@@ -124,8 +123,6 @@ public class DFProxyPlugin implements EventRegistrar {
                     plr.disconnect(data.banInformation.getBanMessage());
                 }
             }
-
-            JoinMessage.sendMessage(info);
         }
     }
 

@@ -17,8 +17,8 @@ public class IncompatibleClient implements DFPluginMessageHandler {
             boolean isIncompatible = ParsedPlatformInformation.fromPlayer(plr).isIncompatible();
 
             byte[] msg = createMessage("IncompatibleClient", convertBoolToString(isIncompatible));
-            sendPluginMessageToBackend(
-                    serverConnection.getServer(), IDENTIFIER, msg);
+
+            sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
         }
     }
 }

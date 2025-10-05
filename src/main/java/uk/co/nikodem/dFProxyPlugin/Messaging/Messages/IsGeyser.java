@@ -17,7 +17,8 @@ public class IsGeyser implements DFPluginMessageHandler {
             Player plr = serverConnection.getPlayer();
             boolean isUnderGeyser = DFProxyPlugin.geyser.isBedrockPlayer(plr.getUniqueId());
             byte[] msg = createMessage("IsGeyser", convertBoolToString(isUnderGeyser));
-            sendPluginMessageToBackend(serverConnection.getServer(), IDENTIFIER, msg);
+
+            sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
         }
     }
 }

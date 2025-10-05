@@ -16,8 +16,8 @@ public class RealProtocolVersion implements DFPluginMessageHandler {
             String protocolVersion = String.valueOf(plr.getProtocolVersion().getProtocol());
 
             byte[] msg = createMessage("RealProtocolVersion", protocolVersion);
-            sendPluginMessageToBackend(
-                    serverConnection.getServer(), IDENTIFIER, msg);
+
+            sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
         }
     }
 }
