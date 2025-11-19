@@ -29,19 +29,22 @@ public class Connect implements DFPluginMessageHandler {
                     connection.whenCompleteAsync(((result, throwable) -> {
                         if (result == null) {
                             byte[] msg = createMessage("ConnectStatus", convertBoolToString(false));
-                            serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
+                            sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
+//                            serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
                             return;
                         }
 
                         byte[] msg = createMessage("ConnectStatus", convertBoolToString(result.isSuccessful()));
-                        serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
+                        sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
+//                        serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
                     }));
 
                     request.fireAndForget();
                 });
             } else {
                 byte[] msg = createMessage("ConnectStatus", convertBoolToString(false));
-                serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
+                sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
+//                serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
             }
         }
     }
