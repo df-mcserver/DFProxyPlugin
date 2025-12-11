@@ -3,9 +3,13 @@
  */
 
 plugins {
-    `java-library`
-    `maven-publish`
+    id("java")
+    id("xyz.jpenilla.run-velocity") version "2.3.1"
 }
+
+group = "uk.co.nikodem"
+version = "1.0"
+description = "DFProxyPlugin"
 
 repositories {
     mavenLocal()
@@ -17,32 +21,26 @@ repositories {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
 
-    maven {
-        url = uri("https://repo.maven.apache.org/maven2/")
-    }
 }
 
 dependencies {
-    api(libs.com.google.code.gson.gson)
-    compileOnly(libs.org.geysermc.geyser.api)
-    compileOnly(libs.com.velocitypowered.velocity.api)
+    compileOnly("com.google.code.gson:gson:2.13.2")
+    compileOnly("org.geysermc.geyser:api:2.9.0-SNAPSHOT")
+    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 
-group = "uk.co.nikodem"
-version = "1.0-SNAPSHOT"
-description = "DFProxyPlugin"
-java.sourceCompatibility = JavaVersion.VERSION_17
-
-publishing {
-    publications.create<MavenPublication>("maven") {
-        from(components["java"])
+tasks {
+    runVelocity {
+        // Configure the Velocity version for our task.
+        // This is the only required configuration besides applying the plugin.
+        // Your plugin's jar (or shadowJar if present) will be used automatically.
+        velocityVersion("3.4.0-SNAPSHOT")
     }
 }
 
-tasks.withType<JavaCompile>() {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType<Javadoc>() {
-    options.encoding = "UTF-8"
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
 }
