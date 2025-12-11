@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
+import java.text.MessageFormat;
 import java.util.*;
 
 public class JavaPlatformInformation implements ParsedPlatformInformation {
@@ -18,25 +19,17 @@ public class JavaPlatformInformation implements ParsedPlatformInformation {
 
     public JavaPlatformInformation(UUID uuid) {
         this.uuid = uuid;
-        this.protocolVersion = getPlayer().getProtocolVersion().getProtocol();
-
-        String rawVersion = "MINECRAFT_Unknown";
-
-        for (var version : ProtocolVersion.ID_TO_PROTOCOL_CONSTANT.entrySet()) {
-            int id = version.getKey();
-            if (this.protocolVersion == id) {
-                rawVersion = version.getValue().name();
-                break;
-            }
-        }
-        rawVersion = rawVersion.replace("MINECRAFT_", "");
-        rawVersion = rawVersion.replace("_", ".");
-        this.minecraftVersion = rawVersion;
-
 
         Player plr = getPlayer();
-        this.username = plr == null ? "Unknown" : getPlayer().getUsername();
-        this.brandName = plr == null ? "Unknown" : plr.getClientBrand();
+
+        this.protocolVersion = DFProxyPlugin.viaAPI.getPlayerProtocolVersion(plr).getOriginalVersion();
+
+        String first = ProtocolVersion.getProtocolVersion(protocolVersion).getVersionIntroducedIn();
+        String last = ProtocolVersion.getProtocolVersion(protocolVersion).getMostRecentSupportedVersion();
+        this.minecraftVersion = first.equals(last) ? first : first+"-"+last;
+
+        this.username = plr == null ? "Unknown" : plr.getUsername();
+        this.brandName = plr == null ? "Unknown" : plr.getClientBrand() == null ? "vanilla" : plr.getClientBrand();
     }
 
     public JavaPlatformInformation(String uuid, int protocolVersion, String minecraftVersion, String username, String brandName) {
@@ -86,7 +79,7 @@ public class JavaPlatformInformation implements ParsedPlatformInformation {
 
     @Override
     public int getProtocolVersion() {
-        return getPlayer().getProtocolVersion().getProtocol();
+        return this.protocolVersion;
     }
 
     @Override
@@ -113,5 +106,18 @@ public class JavaPlatformInformation implements ParsedPlatformInformation {
     public Boolean isModded() {
         // obviously not foolproof, but good enough
         return !Objects.equals(this.brandName, "vanilla");
+    }
+
+    @Override
+    public String toString() {
+        return "====================\n" +
+                MessageFormat.format("  - Username: {0}\n", this.getServerUsername().equals(this.getRealUsername()) ? this.getServerUsername() : this.getServerUsername()+" (aka "+this.getRealUsername()+")") +
+                MessageFormat.format("  - UUID: {0}\n", this.getUniqueId().toString()) +
+                "  - Client information:\n" +
+                MessageFormat.format("    - Client: {0}{1}\n", this.getClientBrandName(), this.isModded() ? " (likely modded)" : "") +
+                MessageFormat.format("    - Platform: {0}\n", this.getPlatformName()) +
+                MessageFormat.format("    - Version: {0}\n",
+                        this.getMinecraftVersion() + " (" + this.getProtocolVersion() + ")") +
+                "====================";
     }
 }

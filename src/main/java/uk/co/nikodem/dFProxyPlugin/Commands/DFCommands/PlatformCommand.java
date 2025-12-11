@@ -13,8 +13,6 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
-import java.text.MessageFormat;
-
 public class PlatformCommand implements DFCommand {
     @Override
     public BrigadierCommand createBrigadierCommand(final ProxyServer server) {
@@ -66,21 +64,7 @@ public class PlatformCommand implements DFCommand {
 
     public void sendPlatformInformation(CommandSource source, Player plr) {
         ParsedPlatformInformation info = ParsedPlatformInformation.fromPlayer(plr);
-        // what the fuck is this concoction that intellij idea just made
-        String msg = "====================\n" +
-                MessageFormat.format("  - Username: {0}\n",
-                        info.isBedrock() ?
-                                info.getServerUsername() + " (usually " + info.getRealUsername() + ")"
-                                : info.getServerUsername()) +
-                MessageFormat.format("  - UUID: {0}\n", info.getUniqueId().toString()) +
-                "  - Client information:\n" +
-                MessageFormat.format("    - Client: {0} {1}\n", info.getClientBrandName(), info.isModded() ? "(modded)" : "") +
-                MessageFormat.format("    - Platform: {0}\n", info.getPlatformName()) +
-                MessageFormat.format("    - Version: {0}\n",
-                        info.isBedrock() ?
-                                info.getMinecraftVersion()
-                                : info.getMinecraftVersion() + " (" + info.getProtocolVersion() + ")") +
-                "====================";
+        String msg = info.toString();
 
         source.sendMessage(Component.text(msg, info.isBedrock() ? NamedTextColor.DARK_PURPLE : NamedTextColor.LIGHT_PURPLE));
     }

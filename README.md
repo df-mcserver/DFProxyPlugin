@@ -10,6 +10,8 @@ This plugin creates some custom commands via the plugin message system, similar 
 Read the specification [here](./PLUGIN_SPEC.md)
 
 ## Dependencies
-- Geyser (Velocity) 2.9.0-SNAPSHOT
+- Geyser (Velocity) 2.9.0-SNAPSHOT+
     - detecting whether or not players that join are Bedrock or not, and making Bedrock-exclusive QoL Features
     - must be present in the plugins
+- ViaVersion (Velocity) 5.5.2-SNAPSHOT+
+    - Getting accurate protocol versions (to get around the fact that velocity will only report 1.13 or higher w/ modern forwarding)

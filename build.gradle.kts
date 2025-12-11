@@ -21,12 +21,18 @@ repositories {
         url = uri("https://repo.papermc.io/repository/maven-public/")
     }
 
+    maven {
+        url = uri("https://repo.viaversion.com/")
+    }
 }
 
 dependencies {
-    compileOnly("com.google.code.gson:gson:2.13.2")
-    compileOnly("org.geysermc.geyser:api:2.9.0-SNAPSHOT")
-    compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    implementation("com.google.code.gson:gson:2.13.2")
+    implementation("org.geysermc.geyser:api:2.9.0-SNAPSHOT")
+    implementation("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
+    implementation("com.viaversion:viaversion:5.5.2-SNAPSHOT")
+    implementation("com.viaversion:viaversion-velocity:5.5.2-SNAPSHOT")
+    implementation("com.viaversion:viaversion-api:5.5.2-SNAPSHOT")
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 

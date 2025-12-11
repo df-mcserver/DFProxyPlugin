@@ -14,6 +14,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
+import com.viaversion.viaversion.velocity.platform.VelocityViaAPI;
 import org.geysermc.geyser.api.GeyserApi;
 import org.geysermc.geyser.api.event.EventRegistrar;
 import org.geysermc.geyser.api.event.bedrock.ClientEmoteEvent;
@@ -40,7 +41,7 @@ import java.util.Date;
         authors = {"deadfry42"},
         dependencies = {
                 @Dependency(id = "geyser"),
-                @Dependency(id = "floodgate")
+                @Dependency(id = "viaversion")
         }
 )
 public class DFProxyPlugin implements EventRegistrar {
@@ -48,6 +49,7 @@ public class DFProxyPlugin implements EventRegistrar {
     public static CommandManager commandManager;
     public static GeyserApi geyser;
     public static Path dataDirectory;
+    public static VelocityViaAPI viaAPI;
 
     public static Logger logger;
     public static String name;
@@ -59,6 +61,7 @@ public class DFProxyPlugin implements EventRegistrar {
         DFProxyPlugin.logger = logger;
         DFProxyPlugin.commandManager = server.getCommandManager();
         DFProxyPlugin.dataDirectory = dataFolder;
+        DFProxyPlugin.viaAPI = new VelocityViaAPI();
 
         PluginMessageListener.initialiseMessageHandlers();
 
@@ -79,13 +82,14 @@ public class DFProxyPlugin implements EventRegistrar {
     public void onPlayerDisconnect(DisconnectEvent event) {
         if (geyser == null) geyser = GeyserApi.api();
         Player plr = event.getPlayer();
+        if (plr == null) return;
         ParsedPlatformInformation.removePlayerFromCache(plr.getUniqueId());
         DisconnectEvent.LoginStatus status = event.getLoginStatus();
 
         if (status != DisconnectEvent.LoginStatus.PRE_SERVER_JOIN) return;
 
         LoginAttempt login = new LoginAttempt(plr, status);
-        System.out.println(login.stringify());
+        System.out.println(login);
     }
 
     @Subscribe
@@ -102,7 +106,7 @@ public class DFProxyPlugin implements EventRegistrar {
         if (event.getPreviousServer().isEmpty()) {
             Player plr = event.getPlayer();
             LoginAttempt login = new LoginAttempt(plr, DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN);
-            System.out.println(login.stringify());
+            System.out.println(login);
 
             UUIDConversionHandler.addConversion(plr);
 
