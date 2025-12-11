@@ -10,10 +10,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class LoginAttempt {
-    public long time;
-    public String readableTime;
-    private ParsedPlatformInformation information;
+    private final ParsedPlatformInformation information;
     public final Player plr;
+    public final long time;
+    public final String readableTime;
 
     public String type;
 
@@ -21,8 +21,16 @@ public class LoginAttempt {
         this.plr = plr;
 
         this.information = ParsedPlatformInformation.fromPlayer(plr);
-        setStatus(status);
-        setTime();
+
+        Date date = Calendar.getInstance().getTime();
+        this.time = date.getTime();
+        this.readableTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
+
+        if (status == DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN) {
+            this.type = "Success";
+        } else {
+            this.type = "Disconnection";
+        }
     }
 
     @Override
@@ -40,19 +48,5 @@ public class LoginAttempt {
 
     public ParsedPlatformInformation getInformation() {
         return this.information;
-    }
-
-    private void setStatus(DisconnectEvent.LoginStatus status) {
-        if (status == DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN) {
-            this.type = "Success";
-        } else {
-            this.type = "Disconnection";
-        }
-    }
-
-    private void setTime() {
-        Date date = Calendar.getInstance().getTime();
-        this.time = date.getTime();
-        this.readableTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(date);
     }
 }

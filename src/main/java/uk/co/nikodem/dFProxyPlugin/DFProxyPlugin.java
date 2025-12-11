@@ -93,11 +93,6 @@ public class DFProxyPlugin implements EventRegistrar {
     }
 
     @Subscribe
-    public void onPlayerLogin(PreLoginEvent event) {
-        // nothing happens...
-    }
-
-    @Subscribe
     public void onPlayerJoin(ServerConnectedEvent event) {
         // i put the initialisation of geyser here to make sure geyser is fully loaded first lol
         if (geyser == null) geyser = GeyserApi.api();
@@ -140,7 +135,7 @@ public class DFProxyPlugin implements EventRegistrar {
     }
 
     public void onLoad() {
-        System.out.println("Loaded plugin "+ name);
+        DFProxyPlugin.logger.info("Loaded plugin {}", name);
     }
 
     public void onEnable(ProxyInitializeEvent event) {
@@ -155,6 +150,6 @@ public class DFProxyPlugin implements EventRegistrar {
     }
 
     public void onDisable() {
-        System.out.println("Deloaded plugin "+ name);
+        DFProxyPlugin.logger.info("Deloaded plugin {}", name);
     }
 }

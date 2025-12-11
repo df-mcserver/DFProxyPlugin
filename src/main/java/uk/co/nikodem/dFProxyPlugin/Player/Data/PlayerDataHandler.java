@@ -63,7 +63,7 @@ public class PlayerDataHandler {
         }
 
         if (!playerFile.canRead()) {
-            System.out.println("Cannot read file "+playerFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Cannot read file {}!", playerFile.getAbsolutePath());
             return null;
         }
 
@@ -71,10 +71,10 @@ public class PlayerDataHandler {
             try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
                 return bufferedReader.readLine(); // data should only be on the first line
             } catch (IOException e) {
-                System.out.println("Failed to parse file "+playerFile.getAbsolutePath()+"!");
+                DFProxyPlugin.logger.warn("Failed to parse file {}!", playerFile.getAbsolutePath());
             }
         } catch (IOException e) {
-            System.out.println("Failed to read file "+playerFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Failed to read file {}!", playerFile.getAbsolutePath());
         }
 
         return null;
@@ -104,7 +104,7 @@ public class PlayerDataHandler {
         }
 
         if (!playerFile.canRead()) {
-            System.out.println("Cannot read file "+playerFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Cannot read file {}!", playerFile.getAbsolutePath());
             return;
         }
 
@@ -113,10 +113,10 @@ public class PlayerDataHandler {
                 bufferedWriter.write(content);
                 bufferedWriter.flush();
             } catch (IOException e) {
-                System.out.println("Failed to write to file "+playerFile.getAbsolutePath()+"!");
+                DFProxyPlugin.logger.warn("Failed to parse file {}!", playerFile.getAbsolutePath());
             }
         } catch (IOException e) {
-            System.out.println("Failed to read file "+playerFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Failed to read file {}!", playerFile.getAbsolutePath());
         }
     }
 

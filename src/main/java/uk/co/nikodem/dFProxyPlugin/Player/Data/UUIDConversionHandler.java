@@ -49,7 +49,7 @@ public class UUIDConversionHandler {
         }
 
         if (!uuidFile.canRead()) {
-            System.out.println("Cannot read file "+uuidFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Cannot read file {}!", uuidFile.getAbsolutePath());
             return null;
         }
 
@@ -57,10 +57,10 @@ public class UUIDConversionHandler {
             try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
                 return bufferedReader.readLine(); // data should only be on the first line
             } catch (IOException e) {
-                System.out.println("Failed to parse file "+uuidFile.getAbsolutePath()+"!");
+                DFProxyPlugin.logger.warn("Failed to parse file {}!", uuidFile.getAbsolutePath());
             }
         } catch (IOException e) {
-            System.out.println("Failed to read file "+uuidFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Failed to read file {}!", uuidFile.getAbsolutePath());
         }
 
         return null;
@@ -81,7 +81,7 @@ public class UUIDConversionHandler {
         }
 
         if (!uuidFile.canRead()) {
-            System.out.println("Cannot read file "+uuidFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Cannot read file {}!", uuidFile.getAbsolutePath());
             return;
         }
 
@@ -90,10 +90,10 @@ public class UUIDConversionHandler {
                 bufferedWriter.write(content);
                 bufferedWriter.flush();
             } catch (IOException e) {
-                System.out.println("Failed to write to file "+uuidFile.getAbsolutePath()+"!");
+                DFProxyPlugin.logger.warn("Failed to write to file {}!", uuidFile.getAbsolutePath());
             }
         } catch (IOException e) {
-            System.out.println("Failed to read file "+uuidFile.getAbsolutePath()+"!");
+            DFProxyPlugin.logger.warn("Failed to read file {}!", uuidFile.getAbsolutePath());
         }
     }
 

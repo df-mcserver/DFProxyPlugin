@@ -9,7 +9,6 @@ public class TimeManager {
     public static String formatDuration(long duration) {
         long seconds = Duration.ofMillis(duration).toSeconds();
 
-        // TODO: check this actually works (in theory it should)
         return seconds <= 0 ? "now" :
                 Arrays.stream(
                     new String[]{
