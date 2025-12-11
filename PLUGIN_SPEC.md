@@ -5,6 +5,7 @@ The messages are sent via the `df:proxy` channel.
 
 ## Connect
 <details><summary>Click to expand</summary>
+
 Similar to [BungeeCord's implementation](https://www.spigotmc.org/wiki/bukkit-bungee-plugin-messaging-channel/#connect), connects a player to the specified subserver, connected to the proxy.  
 Returns a status update to allow servers to write custom logic
 
