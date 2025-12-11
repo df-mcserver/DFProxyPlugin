@@ -2,3 +2,6 @@ out
 target
 ${project.build.directory}
 /.idea/discord.xml
+gradle
+build
+.gradle
