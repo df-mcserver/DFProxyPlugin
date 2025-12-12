@@ -33,6 +33,7 @@ dependencies {
     implementation("com.viaversion:viaversion:5.5.2-SNAPSHOT")
     implementation("com.viaversion:viaversion-velocity:5.5.2-SNAPSHOT")
     implementation("com.viaversion:viaversion-api:5.5.2-SNAPSHOT")
+    implementation("team.unnamed:creative-server:1.7.3")
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }
 

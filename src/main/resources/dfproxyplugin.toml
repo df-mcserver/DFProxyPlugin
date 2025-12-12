@@ -1,0 +1,5 @@
+[resource_pack_hosting]
+enabled = false
+address = "127.0.0.1"
+port = 7270
+path = "packs/pack.zip"

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
-import com.velocitypowered.api.event.connection.PreLoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
@@ -25,12 +24,15 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.PlatformCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.UnbanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.RequestDataCommand;
+import uk.co.nikodem.dFProxyPlugin.Config.Config;
+import uk.co.nikodem.dFProxyPlugin.Config.ConfigManager;
 import uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener;
 import uk.co.nikodem.dFProxyPlugin.Player.Bedrock.EmoteMenu;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
+import uk.co.nikodem.dFProxyPlugin.ResourcePack.PackHoster;
 
 import java.nio.file.Path;
 import java.util.Date;
@@ -47,9 +49,15 @@ import java.util.Date;
 public class DFProxyPlugin implements EventRegistrar {
     public static ProxyServer server;
     public static CommandManager commandManager;
-    public static GeyserApi geyser;
-    public static Path dataDirectory;
+
     public static VelocityViaAPI viaAPI;
+    public static GeyserApi geyser;
+
+    public static Path dataDirectory;
+    public static ConfigManager manager;
+    public static Config config;
+
+    public static PackHoster hoster;
 
     public static Logger logger;
     public static String name;
@@ -62,20 +70,37 @@ public class DFProxyPlugin implements EventRegistrar {
         DFProxyPlugin.commandManager = server.getCommandManager();
         DFProxyPlugin.dataDirectory = dataFolder;
         DFProxyPlugin.viaAPI = new VelocityViaAPI();
+        DFProxyPlugin.manager = new ConfigManager();
+
+        if (!manager.getExists()) manager.create();
+        if (!manager.getIsValidConfiguration()) {
+            logger.error("Invalid configuration! Cannot initialise!");
+            return;
+        }
+        config = manager.update();
+
+        if (config.resource_pack_hosting.isEnabled()) DFProxyPlugin.hoster = new PackHoster();
 
         PluginMessageListener.initialiseMessageHandlers();
-
-        this.onLoad();
+        DFProxyPlugin.logger.info("Loaded plugin {}!", name);
     }
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        this.onEnable(event);
+        // register commands
+        DFCommand.registerDFCommand(this, new BanCommand());
+        DFCommand.registerDFCommand(this, new UnbanCommand());
+        DFCommand.registerDFCommand(this, new PlatformCommand());
+        DFCommand.registerDFCommand(this, new LobbyCommand());
+        DFCommand.registerDFCommand(this, new RequestDataCommand());
+
+        server.getChannelRegistrar().register(PluginMessageListener.IDENTIFIER);
     }
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        this.onDisable();
+        if (config.resource_pack_hosting.isEnabled()) DFProxyPlugin.hoster.gracefullyShutdown();
+        DFProxyPlugin.logger.info("Deloaded plugin {}!", name);
     }
 
     @Subscribe
@@ -108,10 +133,6 @@ public class DFProxyPlugin implements EventRegistrar {
             ParsedPlatformInformation info = ParsedPlatformInformation.fromUUID(plr.getUniqueId());
             PlayerData data = PlayerDataHandler.onJoin(plr, info);
 
-            if (info.isIncompatible()) {
-
-            }
-
             if (data.banInformation != null) {
                 if (data.banInformation.getEnd() < new Date().getTime() && !data.banInformation.isPermanentlyBanned()) {
                     // ban is expired
@@ -132,24 +153,5 @@ public class DFProxyPlugin implements EventRegistrar {
     @org.geysermc.event.subscribe.Subscribe
     public void onGeyserPlayerUseEmote(ClientEmoteEvent event) {
         EmoteMenu.handleEmote(event);
-    }
-
-    public void onLoad() {
-        DFProxyPlugin.logger.info("Loaded plugin {}", name);
-    }
-
-    public void onEnable(ProxyInitializeEvent event) {
-        // register commands
-        DFCommand.registerDFCommand(this, new BanCommand());
-        DFCommand.registerDFCommand(this, new UnbanCommand());
-        DFCommand.registerDFCommand(this, new PlatformCommand());
-        DFCommand.registerDFCommand(this, new LobbyCommand());
-        DFCommand.registerDFCommand(this, new RequestDataCommand());
-
-        server.getChannelRegistrar().register(PluginMessageListener.IDENTIFIER);
-    }
-
-    public void onDisable() {
-        DFProxyPlugin.logger.info("Deloaded plugin {}", name);
     }
 }
