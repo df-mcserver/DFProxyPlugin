@@ -7,13 +7,13 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import java.util.Date;
 import java.util.UUID;
 
-public class BannedPlayer {
+public class BanInformation {
     private final UUID uuid;
     private final long startTimestamp;
     private final long endTimestamp; // note: <0 means permanent
     private final String reason;
 
-    public BannedPlayer(UUID uuid, long startTimestamp, long endTimestamp, String reason) {
+    public BanInformation(UUID uuid, long startTimestamp, long endTimestamp, String reason) {
         this.uuid = uuid;
         this.startTimestamp = startTimestamp;
         this.endTimestamp = endTimestamp;
@@ -54,8 +54,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(Player plr, long start, long end, String reason) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(Player plr, long start, long end, String reason) {
+        return new BanInformation(
                 plr.getUniqueId(),
                 start,
                 end,
@@ -63,8 +63,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(Player plr, long end, String reason) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(Player plr, long end, String reason) {
+        return new BanInformation(
                 plr.getUniqueId(),
                 new Date().getTime(),
                 end,
@@ -72,8 +72,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(Player plr, long end) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(Player plr, long end) {
+        return new BanInformation(
                 plr.getUniqueId(),
                 new Date().getTime(),
                 end,
@@ -81,8 +81,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(Player plr) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(Player plr) {
+        return new BanInformation(
                 plr.getUniqueId(),
                 new Date().getTime(),
                 -1,
@@ -92,8 +92,8 @@ public class BannedPlayer {
 
     // UUID based
 
-    public static BannedPlayer createInformation(UUID uuid, long start, long end, String reason, boolean lobbyPermission) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(UUID uuid, long start, long end, String reason, boolean lobbyPermission) {
+        return new BanInformation(
                 uuid,
                 start,
                 end,
@@ -101,8 +101,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(UUID uuid, long end, String reason, boolean lobbyPermission) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(UUID uuid, long end, String reason, boolean lobbyPermission) {
+        return new BanInformation(
                 uuid,
                 new Date().getTime(),
                 end,
@@ -110,8 +110,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(UUID uuid, long end, String reason) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(UUID uuid, long end, String reason) {
+        return new BanInformation(
                 uuid,
                 new Date().getTime(),
                 end,
@@ -119,8 +119,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(UUID uuid, long end) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(UUID uuid, long end) {
+        return new BanInformation(
                 uuid,
                 new Date().getTime(),
                 end,
@@ -128,8 +128,8 @@ public class BannedPlayer {
         );
     }
 
-    public static BannedPlayer createInformation(UUID uuid) {
-        return new BannedPlayer(
+    public static BanInformation createInformation(UUID uuid) {
+        return new BanInformation(
                 uuid,
                 new Date().getTime(),
                 -1,

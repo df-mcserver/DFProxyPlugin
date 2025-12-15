@@ -8,7 +8,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import uk.co.nikodem.dFProxyPlugin.Bans.BannedPlayer;
+import uk.co.nikodem.dFProxyPlugin.Bans.BanInformation;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
@@ -44,7 +44,7 @@ public class BanCommand implements DFCommand {
                             UUID uuidToBan = getUUID(server, playerArgument);
 
                             if (uuidToBan != null) {
-                                BannedPlayer info = BannedPlayer.createInformation(uuidToBan);
+                                BanInformation info = BanInformation.createInformation(uuidToBan);
                                 DFProxyPlugin.banManager.setBanInformation(uuidToBan, info);
 
                                 kickPlayerIfPossible(server, uuidToBan, info);
@@ -70,7 +70,7 @@ public class BanCommand implements DFCommand {
                 : UUIDConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
     }
 
-    public void kickPlayerIfPossible(final ProxyServer server, UUID uuid, BannedPlayer info) {
+    public void kickPlayerIfPossible(final ProxyServer server, UUID uuid, BanInformation info) {
         server.getPlayer(uuid).ifPresent((plr) -> plr.disconnect(info.getBanMessage()));
     }
 

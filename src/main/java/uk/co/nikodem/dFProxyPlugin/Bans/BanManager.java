@@ -10,11 +10,11 @@ import static uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler.*;
 
 public class BanManager {
 
-    public void setBanInformation(Player plr, @Nullable BannedPlayer info) {
+    public void setBanInformation(Player plr, @Nullable BanInformation info) {
         setBanInformation(plr.getUniqueId(), info);
     }
 
-    public void setBanInformation(UUID uuid, @Nullable BannedPlayer info) {
+    public void setBanInformation(UUID uuid, @Nullable BanInformation info) {
         PlayerData data = retrievePlayerData(uuid);
 
         data.banInformation = info;
