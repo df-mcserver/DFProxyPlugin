@@ -12,13 +12,12 @@ The messages are sent via the `df:proxy` channel.
 <details><summary>Click to expand</summary>
 
 Similar to [BungeeCord's implementation](https://www.spigotmc.org/wiki/bukkit-bungee-plugin-messaging-channel/#connect), connects a player to the specified subserver, connected to the proxy.  
-Returns a status update to allow servers to write custom logic
+Returns a status update to allow servers to write custom logic for when a connect fails. Same name as the BungeeCord implementation, to make it easier to switch between the two.
 
 #### Arguments
 1. Server name of the server to attempt to send the player too
 
 #### Responses
-Implementations should listen for the `Connect` message to get the response.
 1. Whether or not the connection was successful (String, "true"/"false")
 </details>
 
