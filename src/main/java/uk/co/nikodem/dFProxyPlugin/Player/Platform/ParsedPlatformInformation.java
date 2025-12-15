@@ -7,7 +7,6 @@ import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.BedrockPlatformInfor
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.JavaPlatformInformation;
 
 import javax.annotation.Nullable;
-import java.text.MessageFormat;
 import java.util.*;
 
 public interface ParsedPlatformInformation {

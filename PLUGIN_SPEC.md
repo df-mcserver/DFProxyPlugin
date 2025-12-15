@@ -1,7 +1,12 @@
-# Plugin message specification
+# Plugin message specification v0.0.0-INDEV
 
 This plugin creates some custom commands via the plugin message system, similar to that of the BungeeCord plugin message spec.  
+This makes it easier for backend servers to learn more about the clients connecting to them.  
 The messages are sent via the `df:proxy` channel.
+
+## Notable Implementations
+- [DFLobbyServer](https://github.com/df-mcserver/DFLobbyServer/blob/master/src/main/java/uk/co/nikodem/Events/Plugins/MessageReceivers/)
+- [DFSmpPlus](https://github.com/df-mcserver/DFSmpPlus/blob/master/src/main/java/uk/co/nikodem/dFSmpPlus/Messaging/Messages/)
 
 ## Connect
 <details><summary>Click to expand</summary>
@@ -13,11 +18,8 @@ Returns a status update to allow servers to write custom logic
 1. Server name of the server to attempt to send the player too
 
 #### Responses
-Implementations should listen for the `ConnectStatus` message to get the response.
+Implementations should listen for the `Connect` message to get the response.
 1. Whether or not the connection was successful (String, "true"/"false")
-
-#### Implementations
-- [DFLobbyServer](https://github.com/df-mcserver/DFLobbyServer/blob/master/src/main/java/uk/co/nikodem/Events/Plugins/MessageReceivers/ConnectStatus.java)
 </details>
 
 ## IncompatibleClient
@@ -29,9 +31,6 @@ None.
 
 #### Responses
 1. Whether or not the client is considered incompatible (String, "true"/"false")
-
-#### Implementations
-- [DFLobbyServer](https://github.com/df-mcserver/DFLobbyServer/blob/master/src/main/java/uk/co/nikodem/Events/Plugins/MessageReceivers/IncompatibleClient.java)
 </details>
 
 ## IsGeyser
@@ -44,10 +43,6 @@ None.
 
 #### Responses
 1. Whether or not the client is connected via Geyser (String, "true"/"false")
-
-#### Implementations
-- [DFLobbyServer](https://github.com/df-mcserver/DFLobbyServer/blob/master/src/main/java/uk/co/nikodem/Events/Plugins/MessageReceivers/IsGeyser.java)
-- [DFSmpPlus](https://github.com/df-mcserver/DFSmpPlus/blob/master/src/main/java/uk/co/nikodem/dFSmpPlus/Messaging/Messages/IsGeyser.java)
 </details>
 
 ## RealProtocolVersion
@@ -59,7 +54,4 @@ None.
 
 #### Responses
 1. The protocol version of the player (String)
-
-#### Implementations
-- [DFLobbyServer](https://github.com/df-mcserver/DFLobbyServer/blob/master/src/main/java/uk/co/nikodem/Events/Plugins/MessageReceivers/RealProtocolVersion.java)
 </details>

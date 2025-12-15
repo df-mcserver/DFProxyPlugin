@@ -28,13 +28,13 @@ public class Connect implements DFPluginMessageHandler {
 
                     connection.whenCompleteAsync(((result, throwable) -> {
                         if (result == null) {
-                            byte[] msg = createMessage("ConnectStatus", convertBoolToString(false));
+                            byte[] msg = createMessage("Connect", convertBoolToString(false));
                             sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
 //                            serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
                             return;
                         }
 
-                        byte[] msg = createMessage("ConnectStatus", convertBoolToString(result.isSuccessful()));
+                        byte[] msg = createMessage("Connect", convertBoolToString(result.isSuccessful()));
                         sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
 //                        serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
                     }));
@@ -42,7 +42,7 @@ public class Connect implements DFPluginMessageHandler {
                     request.fireAndForget();
                 });
             } else {
-                byte[] msg = createMessage("ConnectStatus", convertBoolToString(false));
+                byte[] msg = createMessage("Connect", convertBoolToString(false));
                 sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
 //                serverConnection.getServer().sendPluginMessage(IDENTIFIER, msg);
             }
