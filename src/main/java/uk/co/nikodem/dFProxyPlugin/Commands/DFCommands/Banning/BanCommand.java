@@ -2,7 +2,6 @@ package uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.velocitypowered.api.command.*;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -60,7 +59,20 @@ public class BanCommand implements DFCommand {
                                     doBan(server, context.getSource(), uuidToBan, BanInformation.createInformation(uuidToBan, end));
 
                                     return Command.SINGLE_SUCCESS;
-                                }))
+                                })
+                                .then(BrigadierCommand.requiredArgumentBuilder("reason", StringArgumentType.greedyString())
+                                        .executes(context -> {
+                                            String playerArgument = context.getArgument("player", String.class);
+                                            String timeArgument = context.getArgument("time", String.class);
+                                            String reasonArgument = context.getArgument("reason", String.class);
+                                            UUID uuidToBan = getUUID(server, playerArgument);
+                                            long end = new Date().getTime() + TimeManager.formatInputIntoDuration(timeArgument);
+
+                                            doBan(server, context.getSource(), uuidToBan, BanInformation.createInformation(uuidToBan, end, reasonArgument));
+
+                                            return Command.SINGLE_SUCCESS;
+                                        })
+                                ))
                 )
                 .build();
 

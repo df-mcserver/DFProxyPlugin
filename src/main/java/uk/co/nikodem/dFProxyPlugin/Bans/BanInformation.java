@@ -3,6 +3,7 @@ package uk.co.nikodem.dFProxyPlugin.Bans;
 import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 
 import java.util.Date;
 import java.util.UUID;
@@ -42,16 +43,7 @@ public class BanInformation {
 
     public Component getBanMessage() {
         String endTime = TimeManager.formatDuration(this.endTimestamp - this.startTimestamp);
-        return Component.text(
-                "You have been"+ (this.isPermanentlyBanned() ? " permanently" : "") + " banned from this server!\n\nReason: ", NamedTextColor.RED
-        ).append(
-                Component.text(this.reason, NamedTextColor.WHITE)
-        ).append(
-                (this.isPermanentlyBanned() ?
-                        Component.newline()
-                        : Component.text("\n\nYou will be unbanned "+endTime, NamedTextColor.RED)
-                )
-        );
+        return MiniMessage.miniMessage().deserialize("<red>You have been"+ (this.isPermanentlyBanned() ? " permanently" : "") + " banned from this server!<br><br>Reason:</red> "+this.reason+"<reset><br><br><red>You will be unbanned "+endTime);
     }
 
     public static BanInformation createInformation(Player plr, long start, long end, String reason) {
@@ -92,19 +84,10 @@ public class BanInformation {
 
     // UUID based
 
-    public static BanInformation createInformation(UUID uuid, long start, long end, String reason, boolean lobbyPermission) {
+    public static BanInformation createInformation(UUID uuid, long start, long end, String reason) {
         return new BanInformation(
                 uuid,
                 start,
-                end,
-                reason
-        );
-    }
-
-    public static BanInformation createInformation(UUID uuid, long end, String reason, boolean lobbyPermission) {
-        return new BanInformation(
-                uuid,
-                new Date().getTime(),
                 end,
                 reason
         );
