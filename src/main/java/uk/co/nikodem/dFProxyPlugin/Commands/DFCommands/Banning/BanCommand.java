@@ -2,6 +2,7 @@ package uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.velocitypowered.api.command.*;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -9,10 +10,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import uk.co.nikodem.dFProxyPlugin.Bans.BanInformation;
+import uk.co.nikodem.dFProxyPlugin.Bans.TimeManager;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class BanCommand implements DFCommand {
@@ -43,21 +46,21 @@ public class BanCommand implements DFCommand {
                             String playerArgument = context.getArgument("player", String.class);
                             UUID uuidToBan = getUUID(server, playerArgument);
 
-                            if (uuidToBan != null) {
-                                BanInformation info = BanInformation.createInformation(uuidToBan);
-                                DFProxyPlugin.banManager.setBanInformation(uuidToBan, info);
-
-                                kickPlayerIfPossible(server, uuidToBan, info);
-
-                                Component message = Component.text("Successfully banned player!", NamedTextColor.GREEN);
-                                context.getSource().sendMessage(message);
-                            } else {
-                                Component message = Component.text("Invalid player!", NamedTextColor.RED);
-                                context.getSource().sendMessage(message);
-                            }
+                            doBan(server, context.getSource(), uuidToBan, BanInformation.createInformation(uuidToBan));
 
                             return Command.SINGLE_SUCCESS;
                         })
+                        .then(BrigadierCommand.requiredArgumentBuilder("time", StringArgumentType.word())
+                                .executes(context -> {
+                                    String playerArgument = context.getArgument("player", String.class);
+                                    String timeArgument = context.getArgument("time", String.class);
+                                    UUID uuidToBan = getUUID(server, playerArgument);
+                                    long end = new Date().getTime() + TimeManager.formatInputIntoDuration(timeArgument);
+
+                                    doBan(server, context.getSource(), uuidToBan, BanInformation.createInformation(uuidToBan, end));
+
+                                    return Command.SINGLE_SUCCESS;
+                                }))
                 )
                 .build();
 
@@ -70,8 +73,18 @@ public class BanCommand implements DFCommand {
                 : UUIDConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
     }
 
-    public void kickPlayerIfPossible(final ProxyServer server, UUID uuid, BanInformation info) {
-        server.getPlayer(uuid).ifPresent((plr) -> plr.disconnect(info.getBanMessage()));
+    public void doBan(final ProxyServer server, CommandSource source, UUID uuid, BanInformation info) {
+        if (uuid != null) {
+            DFProxyPlugin.banManager.setBanInformation(uuid, info);
+
+            server.getPlayer(uuid).ifPresent((plr) -> plr.disconnect(info.getBanMessage()));
+
+            Component message = Component.text("Successfully banned player!", NamedTextColor.GREEN);
+            source.sendMessage(message);
+        } else {
+            Component message = Component.text("Invalid player!", NamedTextColor.RED);
+            source.sendMessage(message);
+        }
     }
 
     @Override
