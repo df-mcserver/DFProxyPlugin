@@ -18,6 +18,7 @@ import org.geysermc.geyser.api.GeyserApi;
 import org.geysermc.geyser.api.event.EventRegistrar;
 import org.geysermc.geyser.api.event.bedrock.ClientEmoteEvent;
 import org.slf4j.Logger;
+import uk.co.nikodem.dFProxyPlugin.Bans.BanManager;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.BanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
@@ -58,6 +59,7 @@ public class DFProxyPlugin implements EventRegistrar {
     public static Config config;
 
     public static PackHoster hoster;
+    public static BanManager banManager;
 
     public static Logger logger;
     public static String name;
@@ -80,6 +82,7 @@ public class DFProxyPlugin implements EventRegistrar {
         config = manager.update();
 
         if (config.resource_pack_hosting.isEnabled()) DFProxyPlugin.hoster = new PackHoster();
+        DFProxyPlugin.banManager = new BanManager();
 
         PluginMessageListener.initialiseMessageHandlers();
         DFProxyPlugin.logger.info("Loaded plugin {}!", name);

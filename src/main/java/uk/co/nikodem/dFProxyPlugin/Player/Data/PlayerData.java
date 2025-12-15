@@ -1,6 +1,6 @@
 package uk.co.nikodem.dFProxyPlugin.Player.Data;
 
-import uk.co.nikodem.dFProxyPlugin.BanManager.BannedPlayer;
+import uk.co.nikodem.dFProxyPlugin.Bans.BannedPlayer;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 public class PlayerData {

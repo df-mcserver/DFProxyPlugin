@@ -105,4 +105,22 @@ public class UUIDConversionHandler {
     public static File getUUIDFile() {
         return Path.of(DFProxyPlugin.dataDirectory.toUri().getPath(), "/uuids.json").toFile();
     }
+
+    @Nullable
+    public static UUID convertUsernameOrStringIntoUUID(String uuidOrUsername) {
+        String conversionIntoUUIDString = UUIDConversionHandler.convertUsernameToUUID(uuidOrUsername);
+        if (conversionIntoUUIDString != null) {
+            try {
+                return UUID.fromString(conversionIntoUUIDString);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        } else {
+            try {
+                return UUID.fromString(uuidOrUsername);
+            } catch (IllegalArgumentException e) {
+                return null;
+            }
+        }
+    }
 }

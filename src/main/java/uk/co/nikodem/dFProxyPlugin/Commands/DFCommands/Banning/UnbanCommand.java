@@ -10,9 +10,11 @@ import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.proxy.ProxyServer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-//import uk.co.nikodem.dFProxyPlugin.BanlistManager;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
+import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
+
+import java.util.UUID;
 
 public class UnbanCommand implements DFCommand {
     @Override
@@ -22,33 +24,35 @@ public class UnbanCommand implements DFCommand {
                 .executes(context -> {
                     CommandSource source = context.getSource();
 
-                    Component message = Component.text("No uuid provided!", NamedTextColor.RED);
+                    Component message = Component.text("No player provided!", NamedTextColor.RED);
                     source.sendMessage(message);
 
                     return Command.SINGLE_SUCCESS;
                 })
-                .then(BrigadierCommand.requiredArgumentBuilder("uuid", StringArgumentType.word())
+                .then(BrigadierCommand.requiredArgumentBuilder("player", StringArgumentType.word())
                         .executes(context -> {
+                            String playerArgument = context.getArgument("player", String.class);
+                            UUID uuidToUnban = getUUID(playerArgument);
 
-                            String uuid = context.getArgument("uuid", String.class);
+                            if (uuidToUnban != null) {
+                                DFProxyPlugin.banManager.removeBanInformation(uuidToUnban);
 
-//                            if (BanlistManager.playerExists(uuid)) {
-//                                String username = BanlistManager.getPlayerUsername(uuid);
-//                                if (!BanlistManager.playerIsBanned(uuid)) {
-//                                    context.getSource().sendMessage(Component.text(username+" isn't banned!", NamedTextColor.RED));
-//                                } else {
-//                                    BanlistManager.unbanPlayer(uuid);
-//                                    context.getSource().sendMessage(Component.text(username+" has been unbanned!", NamedTextColor.GREEN));
-//                                }
-//                            } else {
-//                                context.getSource().sendMessage(Component.text("Player doesn't exist!", NamedTextColor.RED));
-//                            }
+                                Component message = Component.text("Successfully unbanned player!", NamedTextColor.GREEN);
+                                context.getSource().sendMessage(message);
+                            } else {
+                                Component message = Component.text("Invalid player!", NamedTextColor.RED);
+                                context.getSource().sendMessage(message);
+                            }
 
                             return Command.SINGLE_SUCCESS;
                         }))
                 .build();
 
         return new BrigadierCommand(helloNode);
+    }
+
+    public UUID getUUID(String playerArgument) {
+        return UUIDConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
     }
 
     @Override

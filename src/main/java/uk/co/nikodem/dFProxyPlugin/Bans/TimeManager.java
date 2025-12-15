@@ -1,4 +1,4 @@
-package uk.co.nikodem.dFProxyPlugin.BanManager;
+package uk.co.nikodem.dFProxyPlugin.Bans;
 
 import java.time.Duration;
 import java.util.Arrays;
