@@ -10,35 +10,35 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 public class UUIDConversionHandler {
-    public static Gson gson = new Gson();
-    public static UUIDConversion conversion = retrieveConversion();
+    private final Gson gson = new Gson();
+    private final UUIDConversion conversion = retrieveConversion();
 
-    public static UUIDConversion retrieveConversion() {
+    public UUIDConversion retrieveConversion() {
         UUIDConversion data = gson.fromJson(readUUIDFileAsString(), UUIDConversion.class);
         if (data == null) data = new UUIDConversion();
         return data;
     }
 
-    public static void addConversion(String username, String uuid) {
+    public void addConversion(String username, String uuid) {
         if (!conversion.map.containsKey(username)) conversion.map.put(username, uuid);
         writeConversionsToUUIDFile();
     }
 
-    public static void addConversion(Player plr) {
+    public void addConversion(Player plr) {
         addConversion(plr.getUsername(), plr.getUniqueId().toString());
     }
 
-    public static void addConversion(String username, UUID uuid) {
+    public void addConversion(String username, UUID uuid) {
         addConversion(username, uuid.toString());
     }
 
     @Nullable
-    public static String convertUsernameToUUID(String username) {
+    public String convertUsernameToUUID(String username) {
         return conversion.map.get(username);
     }
 
     @Nullable
-    public static String readUUIDFileAsString() {
+    public String readUUIDFileAsString() {
         File uuidFile = getUUIDFile();
         if (!uuidFile.exists()) {
             try {
@@ -66,11 +66,11 @@ public class UUIDConversionHandler {
         return null;
     }
 
-    public static void writeConversionsToUUIDFile() {
+    public void writeConversionsToUUIDFile() {
         writeStringToUUIDFile(gson.toJson(conversion));
     }
 
-    public static void writeStringToUUIDFile(String content) {
+    public void writeStringToUUIDFile(String content) {
         File uuidFile = getUUIDFile();
         if (!uuidFile.exists()) {
             try {
@@ -97,18 +97,18 @@ public class UUIDConversionHandler {
         }
     }
 
-    public static boolean createUUIDFile() throws IOException {
+    public boolean createUUIDFile() throws IOException {
         File file = getUUIDFile();
         return file.createNewFile();
     }
 
-    public static File getUUIDFile() {
+    public File getUUIDFile() {
         return Path.of(DFProxyPlugin.dataDirectory.toUri().getPath(), "/uuids.json").toFile();
     }
 
     @Nullable
-    public static UUID convertUsernameOrStringIntoUUID(String uuidOrUsername) {
-        String conversionIntoUUIDString = UUIDConversionHandler.convertUsernameToUUID(uuidOrUsername);
+    public UUID convertUsernameOrStringIntoUUID(String uuidOrUsername) {
+        String conversionIntoUUIDString = this.convertUsernameToUUID(uuidOrUsername);
         if (conversionIntoUUIDString != null) {
             try {
                 return UUID.fromString(conversionIntoUUIDString);

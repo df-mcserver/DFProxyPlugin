@@ -12,7 +12,6 @@ import uk.co.nikodem.dFProxyPlugin.Bans.BanInformation;
 import uk.co.nikodem.dFProxyPlugin.Bans.TimeManager;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
 
 import java.util.Date;
 import java.util.UUID;
@@ -82,7 +81,7 @@ public class BanCommand implements DFCommand {
     public UUID getUUID(final ProxyServer server, String playerArgument) {
         return server.getPlayer(playerArgument).isPresent()
                 ? server.getPlayer(playerArgument).get().getUniqueId()
-                : UUIDConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
+                : DFProxyPlugin.uuidConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
     }
 
     public void doBan(final ProxyServer server, CommandSource source, UUID uuid, BanInformation info) {

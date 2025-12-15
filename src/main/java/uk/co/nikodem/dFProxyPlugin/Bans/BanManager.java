@@ -6,7 +6,8 @@ import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
 
 import java.util.UUID;
 
-import static uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler.*;
+import static uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler.retrievePlayerData;
+import static uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerDataHandler.writePlayerDataToPlayerFile;
 
 public class BanManager {
 

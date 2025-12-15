@@ -7,7 +7,10 @@ import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.BedrockPlatformInfor
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.Versions.JavaPlatformInformation;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public interface ParsedPlatformInformation {
     @Nullable

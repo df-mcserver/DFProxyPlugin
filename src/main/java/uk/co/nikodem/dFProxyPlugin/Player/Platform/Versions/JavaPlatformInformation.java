@@ -8,7 +8,9 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Player.Platform.ParsedPlatformInformation;
 
 import java.text.MessageFormat;
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 public class JavaPlatformInformation implements ParsedPlatformInformation {
     private final UUID uuid;

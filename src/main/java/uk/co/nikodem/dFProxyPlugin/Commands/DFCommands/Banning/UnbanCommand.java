@@ -12,7 +12,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
-import uk.co.nikodem.dFProxyPlugin.Player.Data.UUIDConversionHandler;
 
 import java.util.UUID;
 
@@ -52,7 +51,7 @@ public class UnbanCommand implements DFCommand {
     }
 
     public UUID getUUID(String playerArgument) {
-        return UUIDConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
+        return DFProxyPlugin.uuidConversionHandler.convertUsernameOrStringIntoUUID(playerArgument);
     }
 
     @Override

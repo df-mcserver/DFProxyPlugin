@@ -2,11 +2,11 @@ package uk.co.nikodem.dFProxyPlugin;
 
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
-import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
-import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
@@ -21,9 +21,9 @@ import org.slf4j.Logger;
 import uk.co.nikodem.dFProxyPlugin.Bans.BanManager;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.BanCommand;
+import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.UnbanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.PlatformCommand;
-import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.UnbanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.RequestDataCommand;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.Config.ConfigManager;
@@ -61,6 +61,8 @@ public class DFProxyPlugin implements EventRegistrar {
     public static PackHoster hoster;
     public static BanManager banManager;
 
+    public static UUIDConversionHandler uuidConversionHandler;
+
     public static Logger logger;
     public static String name;
 
@@ -73,6 +75,7 @@ public class DFProxyPlugin implements EventRegistrar {
         DFProxyPlugin.dataDirectory = dataFolder;
         DFProxyPlugin.viaAPI = new VelocityViaAPI();
         DFProxyPlugin.manager = new ConfigManager();
+        DFProxyPlugin.uuidConversionHandler = new UUIDConversionHandler();
 
         if (!manager.getExists()) manager.create();
         if (!manager.getIsValidConfiguration()) {
@@ -131,7 +134,7 @@ public class DFProxyPlugin implements EventRegistrar {
             LoginAttempt login = new LoginAttempt(plr, DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN);
             if (config.login.isLoginMessageEnabled()) System.out.println(login);
 
-            UUIDConversionHandler.addConversion(plr);
+            DFProxyPlugin.uuidConversionHandler.addConversion(plr);
 
             ParsedPlatformInformation info = ParsedPlatformInformation.fromUUID(plr.getUniqueId());
             PlayerData data = PlayerDataHandler.onJoin(plr, info);
