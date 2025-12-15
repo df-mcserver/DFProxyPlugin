@@ -21,5 +21,14 @@ public class Config {
         }
     }
 
+    public static class Login {
+        private Boolean login_message = true;
+
+        public Boolean isLoginMessageEnabled() {
+            return login_message;
+        }
+    }
+
     public ResourcePackHosting resource_pack_hosting = new ResourcePackHosting();
+    public Login login = new Login();
 }

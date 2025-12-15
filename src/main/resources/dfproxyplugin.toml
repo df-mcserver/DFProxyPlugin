@@ -3,3 +3,6 @@ enabled = false
 address = "127.0.0.1"
 port = 7270
 path = "packs/pack.zip"
+
+[login]
+login_message = true # whether or not the login information of a player should be printed in the console.

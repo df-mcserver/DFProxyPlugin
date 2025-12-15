@@ -106,15 +106,15 @@ public class DFProxyPlugin implements EventRegistrar {
     @Subscribe
     public void onPlayerDisconnect(DisconnectEvent event) {
         if (geyser == null) geyser = GeyserApi.api();
-        Player plr = event.getPlayer();
-        if (plr == null) return;
-        ParsedPlatformInformation.removePlayerFromCache(plr.getUniqueId());
-        DisconnectEvent.LoginStatus status = event.getLoginStatus();
-
-        if (status != DisconnectEvent.LoginStatus.PRE_SERVER_JOIN) return;
-
-        LoginAttempt login = new LoginAttempt(plr, status);
-        System.out.println(login);
+//        Player plr = event.getPlayer();
+//        if (plr == null) return;
+//        ParsedPlatformInformation.removePlayerFromCache(plr.getUniqueId());
+//        DisconnectEvent.LoginStatus status = event.getLoginStatus();
+//
+//        if (status != DisconnectEvent.LoginStatus.PRE_SERVER_JOIN) return;
+//
+//        LoginAttempt login = new LoginAttempt(plr, status);
+//        System.out.println(login);
     }
 
     @Subscribe
@@ -126,7 +126,7 @@ public class DFProxyPlugin implements EventRegistrar {
         if (event.getPreviousServer().isEmpty()) {
             Player plr = event.getPlayer();
             LoginAttempt login = new LoginAttempt(plr, DisconnectEvent.LoginStatus.SUCCESSFUL_LOGIN);
-            System.out.println(login);
+            if (config.login.isLoginMessageEnabled()) System.out.println(login);
 
             UUIDConversionHandler.addConversion(plr);
 
