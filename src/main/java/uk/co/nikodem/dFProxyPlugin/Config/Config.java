@@ -36,13 +36,16 @@ public class Config {
         public static class BridgedChannel {
             private String channel_id = "";
             private String mc_server_name = "";
+            private String webhook_url = "";
 
             public String getChannelId() {
                 return channel_id;
             }
-
             public String getRegisteredServerName() {
                 return mc_server_name;
+            }
+            public String getWebhookUrl() {
+                return webhook_url;
             }
         }
 

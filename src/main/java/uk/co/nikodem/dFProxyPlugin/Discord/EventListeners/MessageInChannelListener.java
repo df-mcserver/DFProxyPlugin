@@ -1,7 +1,6 @@
 package uk.co.nikodem.dFProxyPlugin.Discord.EventListeners;
 
 import com.velocitypowered.api.proxy.server.RegisteredServer;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.kyori.adventure.text.Component;
@@ -11,10 +10,9 @@ import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+
+import static uk.co.nikodem.dFProxyPlugin.Discord.Utils.BridgedChannelsHelper.getBridgedChannels;
 
 public class MessageInChannelListener extends ListenerAdapter {
     @Override
@@ -35,13 +33,5 @@ public class MessageInChannelListener extends ListenerAdapter {
                 DFProxyPlugin.logger.warn("User #{} sent a message in #{} but there was no corresponding discord channel!", event.getAuthor().getName(), event.getChannel().getName());
             });
         }
-    }
-
-    public List<Config.DiscordBot.BridgedChannel> getBridgedChannels(MessageChannelUnion channel) {
-        List<Config.DiscordBot.BridgedChannel> channels = new ArrayList<>();
-        for (Config.DiscordBot.BridgedChannel bridgedChannel : DFProxyPlugin.config.discord_bot.getBridgedChannels()) {
-            if (Objects.equals(bridgedChannel.getChannelId(), channel.getId())) channels.add(bridgedChannel);
-        }
-        return channels;
     }
 }

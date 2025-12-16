@@ -35,6 +35,7 @@ dependencies {
     implementation("com.viaversion:viaversion-api:5.5.2-SNAPSHOT")
     implementation("team.unnamed:creative-server:1.7.3")
     implementation("net.dv8tion:JDA:6.2.0")
+    implementation("club.minnced:discord-webhooks:0.8.4")
 
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 }

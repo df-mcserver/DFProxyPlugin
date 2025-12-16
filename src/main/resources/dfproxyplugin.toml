@@ -15,3 +15,4 @@ token = ""
     [[discord_bot.channels]]
     channel_id = "example_id"
     mc_server_name = "server_name"
+    webhook_url = "real_webhook_url"

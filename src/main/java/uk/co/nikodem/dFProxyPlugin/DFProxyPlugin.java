@@ -5,7 +5,9 @@ import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
+import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
@@ -145,6 +147,21 @@ public class DFProxyPlugin implements EventRegistrar {
                 }
             }
         }
+    }
+
+    @Subscribe
+    public void onPlayerConnectToServer(ServerPostConnectEvent event) {
+        if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onPlayerConnectToServer(event);
+    }
+
+    @Subscribe
+    public void onDisconnectFromProxy(DisconnectEvent event) {
+        if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onDisconnectFromProxy(event);
+    }
+
+    @Subscribe
+    public void onPlayerChat(PlayerChatEvent event) {
+        if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onPlayerChat(event);
     }
 
     @Subscribe
