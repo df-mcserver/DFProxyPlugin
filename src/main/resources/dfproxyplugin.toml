@@ -6,3 +6,7 @@ path = "packs/pack.zip"
 
 [login]
 login_message = true # whether or not the login information of a player should be printed in the console.
+
+[discord_bot]
+enabled = false
+token = ""

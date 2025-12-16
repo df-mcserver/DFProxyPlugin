@@ -29,6 +29,19 @@ public class Config {
         }
     }
 
+    public static class DiscordBot {
+        private Boolean enabled = false;
+        private String token = "";
+
+        public Boolean isEnabled() {
+            return enabled;
+        }
+        public String getToken() {
+            return token;
+        }
+    }
+
     public ResourcePackHosting resource_pack_hosting = new ResourcePackHosting();
+    public DiscordBot discord_bot = new DiscordBot();
     public Login login = new Login();
 }

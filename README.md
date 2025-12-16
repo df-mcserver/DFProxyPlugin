@@ -1,5 +1,7 @@
 # DFProxyPlugin
-A hacky velocity plugin for barebones proxy wide server management and custom plugin messages
+A hacky velocity plugin for barebones proxy wide server management and custom plugin messages  
+
+This plugin also contains a basic resource pack hoster, for hosting one resource pack, and a discord bot, ran by the plugin, both of which are disabled by default and are completely optional.
 
 > [!WARNING]
 > NOT INTENDED FOR PERSONAL USE  
