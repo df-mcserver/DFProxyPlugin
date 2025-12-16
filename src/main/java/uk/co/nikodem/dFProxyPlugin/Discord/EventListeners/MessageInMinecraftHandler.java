@@ -33,7 +33,8 @@ public class MessageInMinecraftHandler {
             if (guildChannel == null) {
                 DFProxyPlugin.logger.warn("Player {} sent a message in {}, but there was no corresponding discord channel!", plr.getUsername(), server.getServerInfo().getName());
                 continue;
-            };
+            }
+
             if (guildChannel instanceof MessageChannelUnion channel) {
                 boolean fallback = false;
 

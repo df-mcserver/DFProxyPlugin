@@ -51,7 +51,7 @@ public class PlayerEventsInMinecraftHandler {
             if (guildChannel == null) {
                 DFProxyPlugin.logger.warn("Player {} {} {}, but there was no corresponding discord channel!", username, action, serverName);
                 continue;
-            };
+            }
             if (guildChannel instanceof MessageChannelUnion channel) {
                 channel.sendMessageEmbeds(
                         new EmbedBuilder()
