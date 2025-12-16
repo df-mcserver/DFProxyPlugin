@@ -47,6 +47,7 @@ public class Config {
         }
 
         private Boolean enabled = false;
+        private String custom_status = "Server online!";
         private String token = "";
         private String guild_id = "";
         private List<BridgedChannel> channels = new ArrayList<>();
@@ -56,6 +57,9 @@ public class Config {
         }
         public String getToken() {
             return token;
+        }
+        public String getCustomStatus() {
+            return custom_status;
         }
         public String getGuildId() {
             return guild_id;

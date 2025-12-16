@@ -13,7 +13,6 @@ public class DiscordBotHoster {
     public DiscordBotHoster() {
         DiscordThread thread = new DiscordThread();
         thread.start();
-
     }
 
     public static class DiscordThread extends Thread {
@@ -28,7 +27,7 @@ public class DiscordBotHoster {
         public void run() {
             jda = JDABuilder.createLight(DFProxyPlugin.config.discord_bot.getToken(), intents)
                     .addEventListeners(new MessageInChannelListener())
-                    .setActivity(Activity.watching("the server"))
+                    .setActivity(Activity.customStatus(DFProxyPlugin.config.discord_bot.getCustomStatus()))
                     .build();
 
             jda.getRestPing()
