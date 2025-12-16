@@ -9,4 +9,8 @@ login_message = true # whether or not the login information of a player should b
 
 [discord_bot]
 enabled = false
+guild_id = "example_id"
 token = ""
+    [[discord_bot.channels]]
+    channel_id = "example_id"
+    mc_server_name = "server_name"
