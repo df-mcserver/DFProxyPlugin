@@ -39,7 +39,7 @@ public class PlatformCommand implements DFCommand {
                         })
                         .executes(context -> {
                             String argumentProvided = context.getArgument("player", String.class);
-                            if (!server.getPlayer(argumentProvided).isPresent()) {
+                            if (server.getPlayer(argumentProvided).isEmpty()) {
                                 context.getSource().sendMessage(Component.text("Invalid player", NamedTextColor.RED));
                                 return Command.SINGLE_SUCCESS;
                             }

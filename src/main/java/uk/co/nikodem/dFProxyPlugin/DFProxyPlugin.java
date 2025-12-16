@@ -22,9 +22,9 @@ import uk.co.nikodem.dFProxyPlugin.Bans.BanManager;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.BanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.UnbanCommand;
-import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Data.PlatformCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Data.RequestDataCommand;
+import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Multiplayer.PlayerlistCommand;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.Config.ConfigManager;
@@ -114,15 +114,6 @@ public class DFProxyPlugin implements EventRegistrar {
     @Subscribe
     public void onPlayerDisconnect(DisconnectEvent event) {
         if (geyser == null) geyser = GeyserApi.api();
-//        Player plr = event.getPlayer();
-//        if (plr == null) return;
-//        ParsedPlatformInformation.removePlayerFromCache(plr.getUniqueId());
-//        DisconnectEvent.LoginStatus status = event.getLoginStatus();
-//
-//        if (status != DisconnectEvent.LoginStatus.PRE_SERVER_JOIN) return;
-//
-//        LoginAttempt login = new LoginAttempt(plr, status);
-//        System.out.println(login);
     }
 
     @Subscribe
