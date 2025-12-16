@@ -18,6 +18,7 @@ public class MessageInChannelListener extends ListenerAdapter {
     @Override
     public void onMessageReceived(@Nonnull MessageReceivedEvent event) {
         if (event.getAuthor().isBot() || event.getAuthor().isSystem()) return;
+        if (event.getMessage().getContentRaw().isBlank()) return;
 
         for (Config.DiscordBot.BridgedChannel bridgedChannelInfo : getBridgedChannels(event.getChannel())) {
             if (bridgedChannelInfo == null) continue;
@@ -29,9 +30,7 @@ public class MessageInChannelListener extends ListenerAdapter {
                                 event.getAuthor().getName(), event.getAuthor().getEffectiveName(), event.getAuthor().getEffectiveName())
                 ).append(Component.text(event.getMessage().getContentRaw().replaceAll("\n", " ")));
                 server.getPlayersConnected().forEach(plr -> plr.sendMessage(mcMessage));
-            }), () -> {
-                DFProxyPlugin.logger.warn("User #{} sent a message in #{} but there was no corresponding discord channel!", event.getAuthor().getName(), event.getChannel().getName());
-            });
+            }), () -> DFProxyPlugin.logger.warn("User #{} sent a message in #{} but there was no corresponding discord channel!", event.getAuthor().getName(), event.getChannel().getName()));
         }
     }
 }
