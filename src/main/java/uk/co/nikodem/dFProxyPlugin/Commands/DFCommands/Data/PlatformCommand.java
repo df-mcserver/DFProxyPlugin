@@ -1,4 +1,4 @@
-package uk.co.nikodem.dFProxyPlugin.Commands.DFCommands;
+package uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Data;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.StringArgumentType;

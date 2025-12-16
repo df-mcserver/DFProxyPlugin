@@ -23,8 +23,9 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.BanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Banning.UnbanCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
-import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.PlatformCommand;
-import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.RequestDataCommand;
+import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Data.PlatformCommand;
+import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Data.RequestDataCommand;
+import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Multiplayer.PlayerlistCommand;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.Config.ConfigManager;
 import uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener;
@@ -99,6 +100,7 @@ public class DFProxyPlugin implements EventRegistrar {
         DFCommand.registerDFCommand(this, new PlatformCommand());
         DFCommand.registerDFCommand(this, new LobbyCommand());
         DFCommand.registerDFCommand(this, new RequestDataCommand());
+        DFCommand.registerDFCommand(this, new PlayerlistCommand());
 
         server.getChannelRegistrar().register(PluginMessageListener.IDENTIFIER);
     }
