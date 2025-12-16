@@ -7,6 +7,15 @@
       <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/team.unnamed/creative-api/1.7.3/b02862b8c2e1ddbf698d494b4cdaca8d2c861d94/creative-api-1.7.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/team.unnamed/creative-server/1.7.3/5a4ee638fe94bea4a6073fbe2bf007f64bf9c042/creative-server-1.7.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.dv8tion/JDA/6.2.0/d4687190d224c0d02061fd295dd16dead5fd8ed/JDA-6.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.trove4j/core/3.1.0/5fd0207b685536b29dd65c86f4b3bf89befb885c/core-3.1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp-jvm/5.3.0/6c64103d4b99cf95a4498872adc1075de580a30b/okhttp-jvm-5.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.2.21/fa374a986e128314c3db00a20aae55f72a258511/kotlin-stdlib-2.2.21.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.neovisionaries/nv-websocket-client/2.14/1b66d37914b232cef45e56ec8c01907620de9e3a/nv-websocket-client-2.14.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio-jvm/3.16.2/243d8d1d6fce5571f38bda712b3caf8759b4af93/okio-jvm-3.16.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.20.1/5734323adfece72111769b0ae38a6cf803e3d178/jackson-core-2.20.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-databind/2.20.1/9586a7fe0e1775de0e54237fa6a2c8455c93ac06/jackson-databind-2.20.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-annotations/2.20/6a5e7291ea3f2b590a7ce400adb7b3aea4d7e12c/jackson-annotations-2.20.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

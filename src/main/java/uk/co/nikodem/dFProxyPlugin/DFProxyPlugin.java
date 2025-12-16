@@ -28,6 +28,7 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Multiplayer.PlayerlistCommand;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.Config.ConfigManager;
+import uk.co.nikodem.dFProxyPlugin.Discord.DiscordBotHoster;
 import uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener;
 import uk.co.nikodem.dFProxyPlugin.Player.Bedrock.EmoteMenu;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
@@ -60,6 +61,7 @@ public class DFProxyPlugin implements EventRegistrar {
     public static Config config;
 
     public static PackHoster hoster;
+    public static DiscordBotHoster discord;
     public static BanManager banManager;
 
     public static UUIDConversionHandler uuidConversionHandler;
@@ -86,6 +88,7 @@ public class DFProxyPlugin implements EventRegistrar {
         config = manager.update();
 
         if (config.resource_pack_hosting.isEnabled()) DFProxyPlugin.hoster = new PackHoster();
+        if (config.discord_bot.isEnabled()) DFProxyPlugin.discord = new DiscordBotHoster();
         DFProxyPlugin.banManager = new BanManager();
 
         PluginMessageListener.initialiseMessageHandlers();
