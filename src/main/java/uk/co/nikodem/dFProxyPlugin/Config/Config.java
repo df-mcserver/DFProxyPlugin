@@ -1,5 +1,8 @@
 package uk.co.nikodem.dFProxyPlugin.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Config {
     public static class ResourcePackHosting {
         private Boolean enabled = false;
@@ -29,6 +32,47 @@ public class Config {
         }
     }
 
+    public static class DiscordBot {
+        public static class BridgedChannel {
+            private String channel_id = "";
+            private String mc_server_name = "";
+            private String webhook_url = "";
+
+            public String getChannelId() {
+                return channel_id;
+            }
+            public String getRegisteredServerName() {
+                return mc_server_name;
+            }
+            public String getWebhookUrl() {
+                return webhook_url;
+            }
+        }
+
+        private Boolean enabled = false;
+        private String custom_status = "Server online!";
+        private String token = "";
+        private String guild_id = "";
+        private List<BridgedChannel> channels = new ArrayList<>();
+
+        public Boolean isEnabled() {
+            return enabled;
+        }
+        public String getToken() {
+            return token;
+        }
+        public String getCustomStatus() {
+            return custom_status;
+        }
+        public String getGuildId() {
+            return guild_id;
+        }
+        public List<BridgedChannel> getBridgedChannels() {
+            return channels;
+        }
+    }
+
     public ResourcePackHosting resource_pack_hosting = new ResourcePackHosting();
+    public DiscordBot discord_bot = new DiscordBot();
     public Login login = new Login();
 }

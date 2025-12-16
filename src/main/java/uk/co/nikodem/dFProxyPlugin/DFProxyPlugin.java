@@ -5,7 +5,9 @@ import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
+import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.event.player.ServerConnectedEvent;
+import com.velocitypowered.api.event.player.ServerPostConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.Dependency;
@@ -28,6 +30,7 @@ import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.LobbyCommand;
 import uk.co.nikodem.dFProxyPlugin.Commands.DFCommands.Multiplayer.PlayerlistCommand;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.Config.ConfigManager;
+import uk.co.nikodem.dFProxyPlugin.Discord.DiscordBotHoster;
 import uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener;
 import uk.co.nikodem.dFProxyPlugin.Player.Bedrock.EmoteMenu;
 import uk.co.nikodem.dFProxyPlugin.Player.Data.PlayerData;
@@ -60,6 +63,7 @@ public class DFProxyPlugin implements EventRegistrar {
     public static Config config;
 
     public static PackHoster hoster;
+    public static DiscordBotHoster discord;
     public static BanManager banManager;
 
     public static UUIDConversionHandler uuidConversionHandler;
@@ -86,6 +90,7 @@ public class DFProxyPlugin implements EventRegistrar {
         config = manager.update();
 
         if (config.resource_pack_hosting.isEnabled()) DFProxyPlugin.hoster = new PackHoster();
+        if (config.discord_bot.isEnabled()) DFProxyPlugin.discord = new DiscordBotHoster();
         DFProxyPlugin.banManager = new BanManager();
 
         PluginMessageListener.initialiseMessageHandlers();
@@ -142,6 +147,21 @@ public class DFProxyPlugin implements EventRegistrar {
                 }
             }
         }
+    }
+
+    @Subscribe
+    public void onPlayerConnectToServer(ServerPostConnectEvent event) {
+        if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onPlayerConnectToServer(event);
+    }
+
+    @Subscribe
+    public void onDisconnectFromProxy(DisconnectEvent event) {
+        if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onDisconnectFromProxy(event);
+    }
+
+    @Subscribe
+    public void onPlayerChat(PlayerChatEvent event) {
+        if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onPlayerChat(event);
     }
 
     @Subscribe

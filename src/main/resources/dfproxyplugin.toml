@@ -6,3 +6,13 @@ path = "packs/pack.zip"
 
 [login]
 login_message = true # whether or not the login information of a player should be printed in the console.
+
+[discord_bot]
+enabled = false
+guild_id = "example_id"
+custom_status = "Server online!"
+token = ""
+    [[discord_bot.channels]]
+    channel_id = "example_id"
+    mc_server_name = "server_name"
+    webhook_url = "real_webhook_url"

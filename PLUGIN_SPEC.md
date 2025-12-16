@@ -14,6 +14,8 @@ The messages are sent via the `df:proxy` channel.
 Similar to [BungeeCord's implementation](https://www.spigotmc.org/wiki/bukkit-bungee-plugin-messaging-channel/#connect), connects a player to the specified subserver, connected to the proxy.  
 Returns a status update to allow servers to write custom logic for when a connect fails. Same name as the BungeeCord implementation, to make it easier to switch between the two.
 
+Backend -> Proxy -> Backend
+
 #### Arguments
 1. Server name of the server to attempt to send the player too
 
@@ -24,6 +26,8 @@ Returns a status update to allow servers to write custom logic for when a connec
 ## IncompatibleClient
 <details><summary>Click to expand</summary>
 Returns whether or not the client is considered 'incompatible'. Used for player validation.
+
+Backend -> Proxy
 
 #### Arguments
 None.
@@ -37,6 +41,8 @@ None.
 Returns whether or not the client is playing via Geyser, on Bedrock. Used for player validation.
 This is required to check if players are on Bedrock, as Geyser doesn't allow you to use the GeyserAPI on servers without the Geyser plugin being present, and Geyser cannot be present on both the proxy and backend server.
 
+Backend -> Proxy
+
 #### Arguments
 None.
 
@@ -47,6 +53,8 @@ None.
 ## RealProtocolVersion
 <details><summary>Click to expand</summary>
 Returns the real protocol version that the player is playing with. Used for player validation
+
+Backend -> Proxy
 
 #### Arguments
 None.
