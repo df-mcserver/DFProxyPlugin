@@ -24,7 +24,7 @@ public class JavaPlatformInformation implements ParsedPlatformInformation {
 
         Player plr = getPlayer();
 
-        this.protocolVersion = DFProxyPlugin.viaAPI.getPlayerProtocolVersion(plr).getOriginalVersion();
+        this.protocolVersion = DFProxyPlugin.viaAPI.getPlayerProtocolVersion(plr).getVersion();
 
         String first = ProtocolVersion.getProtocolVersion(protocolVersion).getVersionIntroducedIn();
         String last = ProtocolVersion.getProtocolVersion(protocolVersion).getMostRecentSupportedVersion();

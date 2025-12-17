@@ -117,11 +117,6 @@ public class DFProxyPlugin implements EventRegistrar {
     }
 
     @Subscribe
-    public void onPlayerDisconnect(DisconnectEvent event) {
-        if (geyser == null) geyser = GeyserApi.api();
-    }
-
-    @Subscribe
     public void onPlayerJoin(ServerConnectedEvent event) {
         // i put the initialisation of geyser here to make sure geyser is fully loaded first lol
         if (geyser == null) geyser = GeyserApi.api();
@@ -134,6 +129,7 @@ public class DFProxyPlugin implements EventRegistrar {
 
             DFProxyPlugin.uuidConversionHandler.addConversion(plr);
 
+            ParsedPlatformInformation.removePlayerFromCache(plr.getUniqueId());
             ParsedPlatformInformation info = ParsedPlatformInformation.fromUUID(plr.getUniqueId());
             PlayerData data = PlayerDataHandler.onJoin(plr, info);
 
@@ -151,11 +147,14 @@ public class DFProxyPlugin implements EventRegistrar {
 
     @Subscribe
     public void onPlayerConnectToServer(ServerPostConnectEvent event) {
+        if (geyser == null) geyser = GeyserApi.api();
         if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onPlayerConnectToServer(event);
     }
 
     @Subscribe
     public void onDisconnectFromProxy(DisconnectEvent event) {
+        ParsedPlatformInformation.removePlayerFromCache(event.getPlayer().getUniqueId());
+        if (geyser == null) geyser = GeyserApi.api();
         if (DFProxyPlugin.config.discord_bot.isEnabled()) DFProxyPlugin.discord.thread.onDisconnectFromProxy(event);
     }
 
