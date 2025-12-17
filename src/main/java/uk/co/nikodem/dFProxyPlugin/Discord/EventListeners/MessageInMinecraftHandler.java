@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Discord.Utils.MCAvatarURLHelper;
+import uk.co.nikodem.dFProxyPlugin.Discord.Utils.PluginConnectedServer;
 
 import java.util.HashMap;
 
@@ -25,6 +26,8 @@ public class MessageInMinecraftHandler {
         if (plr.getCurrentServer().isEmpty()) return;
 
         RegisteredServer server = plr.getCurrentServer().get().getServer();
+
+        if (PluginConnectedServer.isServerRegistered(server)) return;
 
         for (Config.DiscordBot.BridgedChannel bridgedChannelInfo : getBridgedChannels(server.getServerInfo().getName())) {
             if (bridgedChannelInfo == null) continue;

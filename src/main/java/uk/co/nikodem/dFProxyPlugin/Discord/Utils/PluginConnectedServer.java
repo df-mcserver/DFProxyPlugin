@@ -25,4 +25,8 @@ public class PluginConnectedServer {
 
         return true;
     }
+
+    public static boolean isServerRegistered(RegisteredServer server) {
+        return serverNamesConnected.contains(server.getServerInfo().getName());
+    }
 }
