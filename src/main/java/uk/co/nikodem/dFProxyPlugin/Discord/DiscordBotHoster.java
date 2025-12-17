@@ -3,6 +3,8 @@ package uk.co.nikodem.dFProxyPlugin.Discord;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.event.player.ServerPostConnectEvent;
+import com.velocitypowered.api.proxy.Player;
+import com.velocitypowered.api.proxy.server.RegisteredServer;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -59,6 +61,10 @@ public class DiscordBotHoster {
 
         public void onPlayerChat(PlayerChatEvent event) {
             messageInMinecraftHandler.onPlayerChat(event, jda);
+        }
+
+        public void onPluginDiscordStandardMessage(Player plr, RegisteredServer server, String msg) {
+            messageInMinecraftHandler.onPluginDiscordStandardMessage(plr, server, msg, jda);
         }
 
         public void onPlayerConnectToServer(ServerPostConnectEvent event) {

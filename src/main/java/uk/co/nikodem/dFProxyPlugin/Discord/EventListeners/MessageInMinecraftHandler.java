@@ -39,29 +39,51 @@ public class MessageInMinecraftHandler {
             }
 
             if (guildChannel instanceof MessageChannelUnion channel) {
-                boolean fallback = false;
-
-                if (bridgedChannelInfo.getWebhookUrl().isBlank()) fallback = true;
-                else {
-                    JDAWebhookClient client;
-                    if (clientMappings.containsKey(bridgedChannelInfo.getChannelId())) {
-                        client = clientMappings.get(bridgedChannelInfo.getChannelId());
-                    } else {
-                        client = JDAWebhookClient.withUrl(bridgedChannelInfo.getWebhookUrl());
-                    }
-                    if (client != null) {
-                        WebhookMessage message = new WebhookMessageBuilder()
-                                .setUsername(plr.getUsername()) // use this username
-                                .setAvatarUrl(MCAvatarURLHelper.getAvatarURL(plr)) // use this avatar
-                                .setContent(event.getMessage())
-                                .build();
-
-                        client.send(message);
-                    } else fallback = true;
-                }
-
-                if (fallback) channel.sendMessage(String.format("<%s> %s", plr.getUsername(), event.getMessage())).queue();
+                sendMessage(plr, event.getMessage(), bridgedChannelInfo, channel);
             }
         }
+    }
+
+    public void onPluginDiscordStandardMessage(Player plr, RegisteredServer server, String msg, JDA jda) {
+        if (PluginConnectedServer.isServerRegistered(server)) return;
+
+        for (Config.DiscordBot.BridgedChannel bridgedChannelInfo : getBridgedChannels(server.getServerInfo().getName())) {
+            if (bridgedChannelInfo == null) continue;
+
+            GuildChannel guildChannel = jda.getChannelById(GuildChannel.class, bridgedChannelInfo.getChannelId());
+            if (guildChannel == null) {
+                DFProxyPlugin.logger.warn("Player {} sent a message in {} via plugin, but there was no corresponding discord channel!", plr.getUsername(), server.getServerInfo().getName());
+                continue;
+            }
+
+            if (guildChannel instanceof MessageChannelUnion channel) {
+                sendMessage(plr, msg, bridgedChannelInfo, channel);
+            }
+        }
+    }
+
+    public void sendMessage(Player plr, String msg, Config.DiscordBot.BridgedChannel bridgedChannelInfo, MessageChannelUnion channel) {
+        boolean fallback = false;
+
+        if (bridgedChannelInfo.getWebhookUrl().isBlank()) fallback = true;
+        else {
+            JDAWebhookClient client;
+            if (clientMappings.containsKey(bridgedChannelInfo.getChannelId())) {
+                client = clientMappings.get(bridgedChannelInfo.getChannelId());
+            } else {
+                client = JDAWebhookClient.withUrl(bridgedChannelInfo.getWebhookUrl());
+            }
+            if (client != null) {
+                WebhookMessage message = new WebhookMessageBuilder()
+                        .setUsername(plr.getUsername()) // use this username
+                        .setAvatarUrl(MCAvatarURLHelper.getAvatarURL(plr)) // use this avatar
+                        .setContent(msg)
+                        .build();
+
+                client.send(message);
+            } else fallback = true;
+        }
+
+        if (fallback) channel.sendMessage(String.format("<%s> %s", plr.getUsername(), msg)).queue();
     }
 }
