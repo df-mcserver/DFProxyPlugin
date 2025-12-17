@@ -9,11 +9,7 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Discord.Utils.PluginConnectedServer;
 import uk.co.nikodem.dFProxyPlugin.Messaging.DFPluginMessageHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import static uk.co.nikodem.dFProxyPlugin.Messaging.PluginMessageListener.IDENTIFIER;
 
 public class DiscordLogStandardMessage implements DFPluginMessageHandler {
     @Override
@@ -22,7 +18,11 @@ public class DiscordLogStandardMessage implements DFPluginMessageHandler {
             Player plr = serverConnection.getPlayer();
             RegisteredServer server = serverConnection.getServer();
 
-            if (!PluginConnectedServer.isServerRegistered(server)) return;
+            if (!PluginConnectedServer.isServerRegistered(server)) {
+                byte[] msg = createMessage("DiscordLogStandardMessage");
+                sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
+                return;
+            }
 
             String fullString = in.readUTF();
             DFProxyPlugin.discord.thread.onPluginDiscordStandardMessage(plr, server, fullString);

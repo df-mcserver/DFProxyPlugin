@@ -82,24 +82,25 @@ None.
 <details><summary>Click to expand</summary>
 Allows to forward a player (death) message to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
 
-Backend -> Proxy
+Backend -> Proxy (-> Backend)
 
 #### Arguments
-The player message (String)
+1. The player message (String)
 
 #### Responses
-None.
+If the server sending this message is not registered, the message will be sent back to them with no additional fields.
 </details>
 
 ## DiscordLogEmbedMessage
 <details><summary>Click to expand</summary>
 Allows to forward a player message to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
 
-Backend -> Proxy
+Backend -> Proxy (-> Backend)
 
 #### Arguments
-Message (first 6 chars is the colour hex code, the rest of it is message)
+1. The 6 char hex colour of the embed
+2. The message
 
 #### Responses
-None.
+If the server sending this message is not registered, the message will be sent back to them with no additional fields.
 </details>

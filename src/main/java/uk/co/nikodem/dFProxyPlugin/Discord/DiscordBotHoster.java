@@ -13,8 +13,12 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Discord.EventListeners.MessageInChannelListener;
 import uk.co.nikodem.dFProxyPlugin.Discord.EventListeners.MessageInMinecraftHandler;
 import uk.co.nikodem.dFProxyPlugin.Discord.EventListeners.PlayerEventsInMinecraftHandler;
+import uk.co.nikodem.dFProxyPlugin.Discord.Utils.MCAvatarURLHelper;
 
+import java.awt.*;
 import java.util.EnumSet;
+
+import static uk.co.nikodem.dFProxyPlugin.Discord.Utils.HexColourHelper.hexToColor;
 
 public class DiscordBotHoster {
     public DiscordThread thread;
@@ -65,6 +69,10 @@ public class DiscordBotHoster {
 
         public void onPluginDiscordStandardMessage(Player plr, RegisteredServer server, String msg) {
             messageInMinecraftHandler.onPluginDiscordStandardMessage(plr, server, msg, jda);
+        }
+
+        public void onPluginDiscordEmbedMessage(Player plr, RegisteredServer server, String colourhex, String msg) {
+            playerEventsInMinecraftHandler.doEmbed(jda, server.getServerInfo().getName(), plr.getUsername(), MCAvatarURLHelper.getAvatarURL(plr), msg, hexToColor(colourhex));
         }
 
         public void onPlayerConnectToServer(ServerPostConnectEvent event) {
