@@ -1,4 +1,4 @@
-# Plugin message specification v0.0.0-INDEV
+# Plugin message specification v0.0.1-INDEV
 
 This plugin creates some custom commands via the plugin message system, similar to that of the BungeeCord plugin message spec.  
 This makes it easier for backend servers to learn more about the clients connecting to them.  
@@ -27,7 +27,7 @@ Backend -> Proxy -> Backend
 <details><summary>Click to expand</summary>
 Returns whether or not the client is considered 'incompatible'. Used for player validation.
 
-Backend -> Proxy
+Backend -> Proxy -> Backend
 
 #### Arguments
 None.
@@ -41,7 +41,7 @@ None.
 Returns whether or not the client is playing via Geyser, on Bedrock. Used for player validation.
 This is required to check if players are on Bedrock, as Geyser doesn't allow you to use the GeyserAPI on servers without the Geyser plugin being present, and Geyser cannot be present on both the proxy and backend server.
 
-Backend -> Proxy
+Backend -> Proxy -> Backend
 
 #### Arguments
 None.
@@ -54,11 +54,52 @@ None.
 <details><summary>Click to expand</summary>
 Returns the real protocol version that the player is playing with. Used for player validation
 
-Backend -> Proxy
+Backend -> Proxy -> Backend
 
 #### Arguments
 None.
 
 #### Responses
 1. The protocol version of the player (String)
+</details>
+
+## DiscordLoggingBridged
+<details><summary>Click to expand</summary>
+Returns whether or not the requesting backend server has an enabled bridged channel in this proxy plugin's discord bot.
+If the proxy server receives this request, the automatic chat logging is disabled, assuming the backend will use DiscordLogPlayerMessage to forward player messages.
+Will return "false" regardless if the discord bot is disabled.
+
+Backend -> Proxy -> Backend
+
+#### Arguments
+None.
+
+#### Responses
+1. Whether or not proxy plugin's discord bot is enabled (String, "true"/"false")
+</details>
+
+## DiscordLogStandardMessage
+<details><summary>Click to expand</summary>
+Allows to forward a player (death) message to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
+
+Backend -> Proxy
+
+#### Arguments
+The player message (String)
+
+#### Responses
+None.
+</details>
+
+## DiscordLogEmbedMessage
+<details><summary>Click to expand</summary>
+Allows to forward a player message to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
+
+Backend -> Proxy
+
+#### Arguments
+Message (first 6 chars is the colour hex code, the rest of it is message)
+
+#### Responses
+None.
 </details>

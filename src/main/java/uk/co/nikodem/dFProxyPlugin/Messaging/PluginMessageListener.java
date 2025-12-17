@@ -4,10 +4,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
-import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.Connect;
-import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.IncompatibleClient;
-import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.IsGeyser;
-import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.RealProtocolVersion;
+import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.*;
 
 import java.util.HashMap;
 
@@ -16,6 +13,10 @@ public class PluginMessageListener {
     public static final HashMap<String, DFPluginMessageHandler> messageHandlers = new HashMap<>();
 
     public static void initialiseMessageHandlers() {
+        messageHandlers.put("DiscordLoggingBridged", new DiscordLoggingBridged());
+        messageHandlers.put("DiscordLogStandardMessage", new DiscordLogStandardMessage());
+        messageHandlers.put("DiscordLogEmbedMessage", new DiscordLogEmbedMessage());
+
         messageHandlers.put("RealProtocolVersion", new RealProtocolVersion());
         messageHandlers.put("IncompatibleClient", new IncompatibleClient());
         messageHandlers.put("IsGeyser", new IsGeyser());
