@@ -45,8 +45,6 @@ public class MessageInMinecraftHandler {
     }
 
     public void onPluginDiscordStandardMessage(Player plr, RegisteredServer server, String msg, JDA jda) {
-        if (PluginConnectedServer.isServerRegistered(server)) return;
-
         for (Config.DiscordBot.BridgedChannel bridgedChannelInfo : getBridgedChannels(server.getServerInfo().getName())) {
             if (bridgedChannelInfo == null) continue;
 

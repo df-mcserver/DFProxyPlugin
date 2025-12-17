@@ -6,7 +6,14 @@ import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ServerConnection;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
+import uk.co.nikodem.dFProxyPlugin.Discord.Utils.PluginConnectedServer;
 import uk.co.nikodem.dFProxyPlugin.Messaging.DFPluginMessageHandler;
+
+import java.io.ByteArrayInputStream;
+import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class DiscordLogStandardMessage implements DFPluginMessageHandler {
     @Override
@@ -15,15 +22,10 @@ public class DiscordLogStandardMessage implements DFPluginMessageHandler {
             Player plr = serverConnection.getPlayer();
             RegisteredServer server = serverConnection.getServer();
 
-            StringBuilder fullString = new StringBuilder();
-            boolean endOfFile = false;
-            while (!endOfFile) {
-                String readLine = in.readLine();
-                if (readLine == null) endOfFile = true;
-                else fullString.append(readLine);
-            }
+            if (!PluginConnectedServer.isServerRegistered(server)) return;
 
-            DFProxyPlugin.discord.thread.onPluginDiscordStandardMessage(plr, server, fullString.toString());
+            String fullString = in.readUTF();
+            DFProxyPlugin.discord.thread.onPluginDiscordStandardMessage(plr, server, fullString);
         }
     }
 }

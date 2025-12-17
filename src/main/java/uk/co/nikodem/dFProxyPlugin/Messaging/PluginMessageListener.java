@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.*;
 
+import java.io.DataInputStream;
 import java.util.HashMap;
 
 public class PluginMessageListener {
