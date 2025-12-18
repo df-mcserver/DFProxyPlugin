@@ -44,12 +44,16 @@ public class PlayerEventsInMinecraftHandler {
     }
 
     public void doEmbedToBridgedChannels(JDA jda, String serverName, String username, String avatarURL, String action, Color colour) {
+        doEmbed(jda, serverName, username, avatarURL, username+" has "+action+" the server", colour);
+    }
+
+    public void doEmbed(JDA jda, String serverName, String username, String avatarURL, String message, Color colour) {
         for (Config.DiscordBot.BridgedChannel bridgedChannelInfo : getBridgedChannels(serverName)) {
             if (bridgedChannelInfo == null) continue;
 
             GuildChannel guildChannel = jda.getChannelById(GuildChannel.class, bridgedChannelInfo.getChannelId());
             if (guildChannel == null) {
-                DFProxyPlugin.logger.warn("Player {} {} {}, but there was no corresponding discord channel!", username, action, serverName);
+                DFProxyPlugin.logger.warn("{} tried to send embed from {}, but there was no corresponding discord channel!", username, serverName);
                 continue;
             }
             if (guildChannel instanceof MessageChannelUnion channel) {
@@ -57,7 +61,7 @@ public class PlayerEventsInMinecraftHandler {
                         new EmbedBuilder()
                                 .setAuthor(username, null, avatarURL)
                                 .setColor(colour)
-                                .setDescription(username+" has "+action+" the server")
+                                .setDescription(message)
                                 .build()
                 ).queue();
             }
