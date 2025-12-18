@@ -19,13 +19,13 @@ public class DiscordLogEmbedMessage implements DFPluginMessageHandler {
             RegisteredServer server = serverConnection.getServer();
 
             if (!PluginConnectedServer.isServerRegistered(server)) {
-                byte[] msg = createMessage("DiscordLogEmbedMessage");
-                sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, msg);
+                sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, event.getData());
                 return;
             }
 
             String colour = in.readUTF();
             String fullString = in.readUTF();
+
             DFProxyPlugin.discord.thread.onPluginDiscordEmbedMessage(plr, server, colour, fullString);
         }
     }

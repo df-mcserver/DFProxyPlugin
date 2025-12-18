@@ -88,7 +88,7 @@ Backend -> Proxy (-> Backend)
 1. The player message (String)
 
 #### Responses
-If the server sending this message is not registered, the message will be sent back to them with no additional fields.
+If the server sending this message is not registered, the exact message will be sent back to the backend server.
 </details>
 
 ## DiscordLogEmbedMessage
@@ -102,5 +102,5 @@ Backend -> Proxy (-> Backend)
 2. The message
 
 #### Responses
-If the server sending this message is not registered, the message will be sent back to them with no additional fields.
+If the server sending this message is not registered, the exact message will be sent back to the backend server.
 </details>
