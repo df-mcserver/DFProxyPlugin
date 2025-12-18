@@ -49,7 +49,7 @@ public class MessageInChannelListener extends ListenerAdapter {
         msg = msg.replace("\uD83D\uDD25", "\uE90C");
         msg = msg.replace("\uD83D\uDC1F", "\uE90D");
         msg = msg.replace("\uD83D\uDDFF", "\uE90E");
-        msg = msg.replace("\uD83D\uDC4D", "\uE90F");
+        msg = msg.replace("<:thumbs:1320855387884355707>", "\uE90F");
         msg = msg.replace("<:salute:1320855385476960266>", "\uE910");
         msg = msg.replace("<:shrug:1320855386710081546>", "\uE911");
         msg = msg.replace("<:wompwomp:1320855389251834046>", "\uE912");
