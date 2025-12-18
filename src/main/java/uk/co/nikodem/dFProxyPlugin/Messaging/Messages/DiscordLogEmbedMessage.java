@@ -18,6 +18,8 @@ public class DiscordLogEmbedMessage implements DFPluginMessageHandler {
             Player plr = serverConnection.getPlayer();
             RegisteredServer server = serverConnection.getServer();
 
+            if (!DFProxyPlugin.config.discord_bot.isEnabled()) return;
+
             if (!PluginConnectedServer.isServerRegistered(server)) {
                 sendPluginMessageToBackendUsingPlayer(plr, IDENTIFIER, event.getData());
                 return;
