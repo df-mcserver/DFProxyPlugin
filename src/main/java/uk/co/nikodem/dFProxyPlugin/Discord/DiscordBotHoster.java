@@ -71,6 +71,10 @@ public class DiscordBotHoster {
             messageInMinecraftHandler.onPluginDiscordStandardMessage(plr, server, msg, jda);
         }
 
+        public void onPluginDiscordPlayerEmbedMessage(Player plr, RegisteredServer server, String colourhex, String msg) {
+            messageInMinecraftHandler.onPluginDiscordPlayerEmbedMessage(plr, server, msg, hexToColor(colourhex), jda);
+        }
+
         public void onPluginDiscordEmbedMessage(Player plr, RegisteredServer server, String colourhex, String msg) {
             playerEventsInMinecraftHandler.doEmbed(jda, server.getServerInfo().getName(), plr.getUsername(), MCAvatarURLHelper.getAvatarURL(plr), msg, hexToColor(colourhex));
         }
