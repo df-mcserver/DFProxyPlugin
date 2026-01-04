@@ -1,11 +1,13 @@
 package uk.co.nikodem.dFProxyPlugin.Discord.EventListeners;
 
 import club.minnced.discord.webhook.external.JDAWebhookClient;
+import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import com.velocitypowered.api.event.player.PlayerChatEvent;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.middleman.GuildChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -14,6 +16,7 @@ import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Discord.Utils.MCAvatarURLHelper;
 import uk.co.nikodem.dFProxyPlugin.Discord.Utils.PluginConnectedServer;
 
+import java.awt.*;
 import java.util.HashMap;
 
 import static uk.co.nikodem.dFProxyPlugin.Discord.Utils.BridgedChannelsHelper.getBridgedChannels;
@@ -56,6 +59,51 @@ public class MessageInMinecraftHandler {
 
             if (guildChannel instanceof MessageChannelUnion channel) {
                 sendMessage(plr, msg, bridgedChannelInfo, channel);
+            }
+        }
+    }
+
+    public void onPluginDiscordPlayerEmbedMessage(Player plr, RegisteredServer server, String msg, Color colour, JDA jda) {
+        for (Config.DiscordBot.BridgedChannel bridgedChannelInfo : getBridgedChannels(server.getServerInfo().getName())) {
+            if (bridgedChannelInfo == null) continue;
+
+            GuildChannel guildChannel = jda.getChannelById(GuildChannel.class, bridgedChannelInfo.getChannelId());
+            if (guildChannel == null) {
+                DFProxyPlugin.logger.warn("Player {} sent an embed message in {} via plugin, but there was no corresponding discord channel!", plr.getUsername(), server.getServerInfo().getName());
+                continue;
+            }
+
+            if (guildChannel instanceof MessageChannelUnion channel) {
+                // custom impl because we're sending an embed
+                boolean fallback = false;
+
+                if (bridgedChannelInfo.getWebhookUrl().isBlank()) fallback = true;
+                else {
+                    JDAWebhookClient client;
+                    if (clientMappings.containsKey(bridgedChannelInfo.getChannelId())) {
+                        client = clientMappings.get(bridgedChannelInfo.getChannelId());
+                    } else {
+                        client = JDAWebhookClient.withUrl(bridgedChannelInfo.getWebhookUrl());
+                    }
+                    if (client != null) {
+                        WebhookMessage message = new WebhookMessageBuilder()
+                                .setUsername(plr.getUsername()) // use this username
+                                .setAvatarUrl(MCAvatarURLHelper.getAvatarURL(plr)) // use this avatar
+                                .addEmbeds(
+                                        WebhookEmbedBuilder.fromJDA(
+                                                new EmbedBuilder()
+                                                        .setColor(colour)
+                                                        .setDescription(msg)
+                                                        .build()
+                                        ).build()
+                                )
+                                .build();
+
+                        client.send(message);
+                    } else fallback = true;
+                }
+
+                if (fallback) channel.sendMessage(String.format("<%s> (pretend this is an embed :p) %s", plr.getUsername(), msg)).queue();
             }
         }
     }

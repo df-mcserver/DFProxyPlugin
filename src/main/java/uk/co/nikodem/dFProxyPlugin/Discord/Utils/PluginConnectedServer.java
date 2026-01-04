@@ -26,6 +26,15 @@ public class PluginConnectedServer {
         return true;
     }
 
+    public static void unregisterServer(RegisteredServer server) {
+        if (!DFProxyPlugin.config.discord_bot.isEnabled()) return;
+        String name = server.getServerInfo().getName();
+
+        if (!serverNamesConnected.contains(name)) {
+            serverNamesConnected.remove(name);
+        }
+    }
+
     public static boolean isServerRegistered(RegisteredServer server) {
         return serverNamesConnected.contains(server.getServerInfo().getName());
     }

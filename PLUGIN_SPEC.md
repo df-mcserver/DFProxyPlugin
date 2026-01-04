@@ -1,4 +1,4 @@
-# Plugin message specification v0.0.1-INDEV
+# Plugin message specification v0.0.2-INDEV
 
 This plugin creates some custom commands via the plugin message system, similar to that of the BungeeCord plugin message spec.  
 This makes it easier for backend servers to learn more about the clients connecting to them.  
@@ -93,7 +93,21 @@ If the server sending this message is not registered, the exact message will be 
 
 ## DiscordLogEmbedMessage
 <details><summary>Click to expand</summary>
-Allows to forward a player message to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
+Allows to forward a message within an embed to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
+
+Backend -> Proxy (-> Backend)
+
+#### Arguments
+1. The 6 char hex colour of the embed
+2. The message
+
+#### Responses
+If the server sending this message is not registered, the exact message will be sent back to the backend server.
+</details>
+
+## DiscordLogPlayerEmbedMessage
+<details><summary>Click to expand</summary>
+Allows to forward a player message within an embed to the proxy's discord bot. Make sure that the discord channel bridge is set up in the config, or else this request will be ignored. This request will be ignored if the DiscordLoggingBridged message was not previously sent.
 
 Backend -> Proxy (-> Backend)
 

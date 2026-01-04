@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import uk.co.nikodem.dFProxyPlugin.Config.Config;
 import uk.co.nikodem.dFProxyPlugin.DFProxyPlugin;
 import uk.co.nikodem.dFProxyPlugin.Discord.Utils.MCAvatarURLHelper;
+import uk.co.nikodem.dFProxyPlugin.Discord.Utils.PluginConnectedServer;
 
 import java.awt.*;
 
@@ -28,6 +29,8 @@ public class PlayerEventsInMinecraftHandler {
         if (previousServer != null) {
             String previousServerName = previousServer.getServerInfo().getName();
             doEmbedToBridgedChannels(jda, previousServerName, username, avatarURL, "left", Color.RED);
+
+            if (previousServer.getPlayersConnected().isEmpty()) PluginConnectedServer.unregisterServer(previousServer);
         }
 
         doEmbedToBridgedChannels(jda, serverName, username, avatarURL, "joined", Color.GREEN);
@@ -41,6 +44,9 @@ public class PlayerEventsInMinecraftHandler {
         String serverName = event.getPlayer().getCurrentServer().get().getServerInfo().getName();
 
         doEmbedToBridgedChannels(jda, serverName, username, avatarURL, "left", Color.RED);
+
+        RegisteredServer server = event.getPlayer().getCurrentServer().get().getServer();
+        if (server.getPlayersConnected().isEmpty()) PluginConnectedServer.unregisterServer(server);
     }
 
     public void doEmbedToBridgedChannels(JDA jda, String serverName, String username, String avatarURL, String action, Color colour) {

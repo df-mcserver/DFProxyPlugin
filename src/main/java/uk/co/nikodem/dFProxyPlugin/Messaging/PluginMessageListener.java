@@ -6,7 +6,6 @@ import com.velocitypowered.api.event.connection.PluginMessageEvent;
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier;
 import uk.co.nikodem.dFProxyPlugin.Messaging.Messages.*;
 
-import java.io.DataInputStream;
 import java.util.HashMap;
 
 public class PluginMessageListener {
@@ -17,6 +16,7 @@ public class PluginMessageListener {
         messageHandlers.put("DiscordLoggingBridged", new DiscordLoggingBridged());
         messageHandlers.put("DiscordLogStandardMessage", new DiscordLogStandardMessage());
         messageHandlers.put("DiscordLogEmbedMessage", new DiscordLogEmbedMessage());
+        messageHandlers.put("DiscordLogPlayerEmbedMessage", new DiscordLogPlayerEmbedMessage());
 
         messageHandlers.put("RealProtocolVersion", new RealProtocolVersion());
         messageHandlers.put("IncompatibleClient", new IncompatibleClient());
