@@ -89,7 +89,6 @@ public class MessageInMinecraftHandler {
                         WebhookMessage message = new WebhookMessageBuilder()
                                 .setUsername(plr.getUsername()) // use this username
                                 .setAvatarUrl(MCAvatarURLHelper.getAvatarURL(plr)) // use this avatar
-                                .setContent(msg)
                                 .addEmbeds(
                                         WebhookEmbedBuilder.fromJDA(
                                                 new EmbedBuilder()
