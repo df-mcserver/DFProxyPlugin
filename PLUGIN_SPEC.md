@@ -1,4 +1,4 @@
-# Plugin message specification v0.0.1-INDEV
+# Plugin message specification v0.0.2-INDEV
 
 This plugin creates some custom commands via the plugin message system, similar to that of the BungeeCord plugin message spec.  
 This makes it easier for backend servers to learn more about the clients connecting to them.  
