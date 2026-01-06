@@ -15,5 +15,5 @@ Read the specification [here](./PLUGIN_SPEC.md)
 - Geyser (Velocity) 2.9.0-SNAPSHOT+
     - detecting whether or not players that join are Bedrock or not, and making Bedrock-exclusive QoL Features
     - must be present in the plugins
-- ViaVersion (Velocity) 5.5.2-SNAPSHOT+
+- ViaVersion (Velocity) 5.6.1+
     - Getting accurate protocol versions (to get around the fact that velocity will only report 1.13 or higher w/ modern forwarding)
