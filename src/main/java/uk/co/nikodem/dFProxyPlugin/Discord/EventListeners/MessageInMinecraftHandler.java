@@ -1,6 +1,7 @@
 package uk.co.nikodem.dFProxyPlugin.Discord.EventListeners;
 
 import club.minnced.discord.webhook.external.JDAWebhookClient;
+import club.minnced.discord.webhook.send.AllowedMentions;
 import club.minnced.discord.webhook.send.WebhookEmbedBuilder;
 import club.minnced.discord.webhook.send.WebhookMessage;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
@@ -89,6 +90,7 @@ public class MessageInMinecraftHandler {
                         WebhookMessage message = new WebhookMessageBuilder()
                                 .setUsername(plr.getUsername()) // use this username
                                 .setAvatarUrl(MCAvatarURLHelper.getAvatarURL(plr)) // use this avatar
+                                .setAllowedMentions(AllowedMentions.none())
                                 .addEmbeds(
                                         WebhookEmbedBuilder.fromJDA(
                                                 new EmbedBuilder()
@@ -123,6 +125,7 @@ public class MessageInMinecraftHandler {
                 WebhookMessage message = new WebhookMessageBuilder()
                         .setUsername(plr.getUsername()) // use this username
                         .setAvatarUrl(MCAvatarURLHelper.getAvatarURL(plr)) // use this avatar
+                        .setAllowedMentions(AllowedMentions.none())
                         .setContent(msg)
                         .build();
 
