@@ -26,7 +26,7 @@ public class MessageInChannelListener extends ListenerAdapter {
             Optional<RegisteredServer> serverPredicate = DFProxyPlugin.server.getServer(bridgedChannelInfo.getRegisteredServerName());
             serverPredicate.ifPresentOrElse((server -> {
                 Component mcMessage = MiniMessage.miniMessage().deserialize(
-                        String.format("<hover:show_text:'Sent by \"#%s\", otherwise known as \"%s\", on Discord<br>The message may be strangely formatted due to the differences between these platforms.'><dark_purple>[%s]</dark_purple> ",
+                        String.format("<hover:show_text:'Sent by \"#%s\", otherwise known as \"%s\", on Discord<br>The message may be strangely formatted due to the differences between these platforms.<br>Certain things like message edits, and attachments cannot be seen via Minecraft.'><dark_purple>[%s]</dark_purple> ",
                                 event.getAuthor().getName(), event.getAuthor().getEffectiveName(), event.getAuthor().getEffectiveName())
                 ).append(Component.text(replaceEmojisWithEquivalents(event.getMessage().getContentRaw()).replaceAll("\n", " ")));
                 server.getPlayersConnected().forEach(plr -> plr.sendMessage(mcMessage));
