@@ -34,7 +34,7 @@ public interface ParsedPlatformInformation {
 
     public default boolean isIncompatible() {
         if (getClientBrandName() == null) return true;
-        List<String> allowedClients = List.of("vanilla", "fabric", "neoforge", "quilt", "labymod", "Feather Fabric");
+        List<String> allowedClients = List.of("vanilla", "fabric", "neoforge", "quilt", "labymod", "Feather Fabric", "vivecraft");
         return !allowedClients.contains(getClientBrandName());
     }
 
