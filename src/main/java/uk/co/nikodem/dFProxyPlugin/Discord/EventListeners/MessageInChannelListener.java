@@ -70,6 +70,35 @@ public class MessageInChannelListener extends ListenerAdapter {
         msg = msg.replace("\uD83E\uDD13", "\uE921");
         msg = msg.replace("\uD83D\uDD30", "\uE922");
 
+        msg = msg.replace("\uD83E\uDD40", "\uE923");
+        msg = msg.replace("\uD83C\uDF8B", "\uE924");
+        msg = msg.replace("\u2764\uFE0F", "\uE925");
+        msg = msg.replace("\uD83D\uDC94", "\uE926");
+        msg = msg.replace("\uD83C\uDFF3\uFE0F\u200D⚧\uFE0F", "\uE927");
+        msg = msg.replace("\uD83D\uDD0B", "\uE928");
+        msg = msg.replace("\uD83E\uDEAB", "\uE929");
+        msg = msg.replace("❤\uFE0F\u200D\uD83E\uDE79", "\uE92A");
+        msg = msg.replace("\uD83C\uDF39", "\uE92B");
+        msg = msg.replace("\uD83D\uDDA4", "\uE92C");
+        msg = msg.replace("\uD83E\uDD14", "\uE92D");
+        msg = msg.replace("\uD83D\uDE15", "\uE92E");
+        msg = msg.replace("\uD83D\uDC4D", "\uE92F");
+        msg = msg.replace("\uD83D\uDC4E", "\uE930");
+        msg = msg.replace("\uD83C\uDF89", "\uE931");
+        msg = msg.replace("\uD83E\uDEF6", "\uE932");
+        msg = msg.replace("\uD83E\uDEE9", "\uE933");
+        msg = msg.replace("❌", "\uE934");
+        msg = msg.replace("✅", "\uE935");
+        msg = msg.replace("\uD83E\uDD73", "\uE936");
+        msg = msg.replace("<:false:1563275403659968584>", "\uE937");
+        msg = msg.replace("<:true:1563275776764157982>", "\uE938");
+        msg = msg.replace("<:thumbs_up:1563275449579077633>", "\uE939");
+        msg = msg.replace("<:fucyoy:1563275743897583706>", "\uE93A");
+        msg = msg.replace("<:silly:1563275432076386324>", "\uE93B");
+        msg = msg.replace("<:mrrp:1563275420567076924>", "\uE93C");
+        msg = msg.replace("<:cat_sit:1563275377659355366>", "\uE93D");
+        msg = msg.replace("<:steamhappy:1563276184710553741>", "\uE93E");
+
         return msg;
     }
 }

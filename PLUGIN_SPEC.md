@@ -1,4 +1,4 @@
-# Plugin message specification v0.0.2-INDEV
+# Plugin message specification v0.0.3-INDEV
 
 This plugin creates some custom commands via the plugin message system, similar to that of the BungeeCord plugin message spec.  
 This makes it easier for backend servers to learn more about the clients connecting to them.  
@@ -117,4 +117,17 @@ Backend -> Proxy (-> Backend)
 
 #### Responses
 If the server sending this message is not registered, the exact message will be sent back to the backend server.
+</details>
+
+## PlayerOpenQuickActionsDialog
+<details><summary>Click to expand</summary>
+Sends a request to the backend server to open the `minecraft:quick_actions` dialog for the player.
+
+Proxy -> Backend
+
+#### Arguments
+None.
+
+#### Responses
+None.
 </details>
